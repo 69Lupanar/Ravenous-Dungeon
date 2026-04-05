@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547c11250a6857e4990bbfd1509098c9, type: 3}
+  m_Name: Test Tile Library
+  m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.TilePalette.TileLibrarySO
+  <PlayerTile>k__BackingField: {fileID: 11400000, guid: abc08d373ac20294bab96753f916de29, type: 2}
+  <WallTile>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
+  <GroundTile>k__BackingField: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
+  <UnknownTile>k__BackingField: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}

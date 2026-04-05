@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e3302d6c513d74caa35603440a4514, type: 3}
+  m_Name: Generation Settings
+  m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Generation.GenerationSettings
+  <MinMaxGridSize>k__BackingField:
+    x: 30
+    y: 50
+  <Biomes>k__BackingField:
+  - {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
