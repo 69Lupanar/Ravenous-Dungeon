@@ -1,0 +1,25 @@
+{
+    "name": "Assets.Scripts.Runtime.Views",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e39f7b50c2f04ec4fb4fc2c0c154ae03",
+        "GUID:37c79a52e17960b4daae8d77fd76cec8",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:d525ad6bd40672747bde77962f1c401e"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eefbc5908c9416f40a62651e15caef6a, type: 3}
   m_Name: Test Sprite Library
-  m_EditorClassIdentifier: Assets.Scripts.Runtime::TileLibrary
+  m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.TilePalette.SpriteLibrarySO
   <PlayerSprite>k__BackingField: {fileID: 11400000, guid: 54826f6be65306f41a4d5fc29c7b6c66, type: 2}
   <Palettes>k__BackingField:
   - {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}

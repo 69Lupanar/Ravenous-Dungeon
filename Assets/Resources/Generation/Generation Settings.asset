@@ -17,3 +17,7 @@ MonoBehaviour:
     y: 50
   <Biomes>k__BackingField:
   - {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
+  <AlgorithmsPerBiome>k__BackingField:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
+      Value: 0000000001000000

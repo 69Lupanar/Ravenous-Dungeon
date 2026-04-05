@@ -1,4 +1,5 @@
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using AYellowpaper.SerializedCollections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -21,5 +22,12 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Generation
         /// </summary>
         [field: SerializeField]
         public BiomeTilePaletteSO[] Biomes { get; private set; }
+
+        /// <summary>
+        /// La liste des algos de génération acceptés par biome.
+        /// Permet de restreindre certains biomes à certaines structures.
+        /// </summary>
+        [field: SerializeField]
+        public SerializedDictionary<BiomeTilePaletteSO, GenerationAlgorithmType[]> AlgorithmsPerBiome { get; private set; }
     }
 }
