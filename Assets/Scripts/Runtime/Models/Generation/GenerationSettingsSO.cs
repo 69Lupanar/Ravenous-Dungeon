@@ -3,7 +3,7 @@ using AYellowpaper.SerializedCollections;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Assets.Scripts.Runtime.Models.Tiles.Generation
+namespace Assets.Scripts.Runtime.Models.Generation
 {
     /// <summary>
     /// Paramètres de génération de la carte
@@ -16,6 +16,18 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Generation
         /// </summary>
         [field: SerializeField]
         public int2 MinMaxGridSize { get; private set; }
+
+        /// <summary>
+        /// L'intervalle possible du nombre max de salles à instancier
+        /// </summary>
+        [field: SerializeField]
+        public int2 MinMaxNbRooms { get; private set; }
+
+        /// <summary>
+        /// L'intervalle possible de la taille des salles à instancier
+        /// </summary>
+        [field: SerializeField]
+        public int2 MinMaxRoomSize { get; private set; }
 
         /// <summary>
         /// Les biomes pouvant être générés

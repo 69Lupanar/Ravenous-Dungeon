@@ -31,5 +31,11 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// </summary>
         [field: SerializeField]
         public TileSO UnknownTile { get; private set; }
+
+        /// <summary>
+        /// La case représentant les portes
+        /// </summary>
+        [field: SerializeField]
+        public TileSO DoorTile { get; private set; }
     }
 }

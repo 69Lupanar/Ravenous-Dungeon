@@ -1,5 +1,5 @@
+using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles;
-using Assets.Scripts.Runtime.Models.Tiles.Generation;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.ViewModels.Generation;
 using Unity.Mathematics;

@@ -2,7 +2,7 @@ using System;
 using Assets.Scripts.Runtime.Models.Tiles.Map;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 
-namespace Assets.Scripts.Runtime.Models.Tiles.Generation
+namespace Assets.Scripts.Runtime.Models.Generation
 {
     /// <summary>
     /// Résultat de l'événement

@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Runtime.Models.Tiles.Generation
+namespace Assets.Scripts.Runtime.Models.Generation
 {
     /// <summary>
     /// Type d'algorithme utilisé lors de la génération

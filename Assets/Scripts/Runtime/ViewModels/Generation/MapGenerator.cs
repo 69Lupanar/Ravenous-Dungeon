@@ -1,5 +1,5 @@
 using System;
-using Assets.Scripts.Runtime.Models.Tiles.Generation;
+using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Tiles.Map.Grid;
@@ -70,7 +70,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="palette">Contient les sprites utilisés pour l'affichage des cases</param>
         public void Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, BiomeTilePaletteSO palette)
         {
-            _grid = GenerationAlgorithms.Generate(gs, tl, alg);
+            _grid = GenerationUtils.Generate(gs, tl, alg);
 
             OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, palette));
         }

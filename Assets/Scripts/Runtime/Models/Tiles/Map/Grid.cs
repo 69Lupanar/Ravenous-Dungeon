@@ -1,3 +1,4 @@
+using Assets.Scripts.Runtime.Models.Features;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.Models.Tiles.Map
@@ -18,6 +19,16 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Map
         /// Couche contenant les cases de l'environnment
         /// </summary>
         public TileSO[] EnvironmentLayer { get; private set; }
+
+        /// <summary>
+        /// Représente les salles créées lors de la génération
+        /// </summary>
+        public DungeonStructure[] Rooms { get; private set; }
+
+        /// <summary>
+        /// Représente les coulois créés lors de la génération
+        /// </summary>
+        public DungeonStructure[] Corridors { get; private set; }
 
         #endregion
 
@@ -44,6 +55,24 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Map
         public int ToIndex(int x, int y)
         {
             return x + y * GridSize.x;
+        }
+
+        /// <summary>
+        /// Enregistre les salles du niveau
+        /// </summary>
+        /// <param name="rooms">Les salles du niveau</param>
+        public void SetRooms(DungeonStructure[] rooms)
+        {
+            Rooms = rooms;
+        }
+
+        /// <summary>
+        /// Enregistre les corridors du niveau
+        /// </summary>
+        /// <param name="rooms">Les corridors du niveau</param>
+        public void SetCorridors(DungeonStructure[] corridors)
+        {
+            Corridors = corridors;
         }
 
         #endregion

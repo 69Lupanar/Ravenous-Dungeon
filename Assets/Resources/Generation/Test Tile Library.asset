@@ -16,3 +16,4 @@ MonoBehaviour:
   <WallTile>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
   <GroundTile>k__BackingField: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
   <UnknownTile>k__BackingField: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}
+  <DoorTile>k__BackingField: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
