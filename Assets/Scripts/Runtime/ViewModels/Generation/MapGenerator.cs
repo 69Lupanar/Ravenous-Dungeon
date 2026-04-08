@@ -1,6 +1,7 @@
 using System;
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Unity.Mathematics;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Tiles.Map.Grid;
 using Random = UnityEngine.Random;
@@ -70,7 +71,14 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="palette">Contient les sprites utilisés pour l'affichage des cases</param>
         public void Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, BiomeTilePaletteSO palette)
         {
-            _grid = GenerationUtils.Generate(gs, tl, alg);
+            int2 gridSize = new(Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y),
+                                Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y));
+
+            _grid = new Grid(gridSize);
+
+            // Génère l'environnement
+
+            _grid.EnvironmentLayer = GenerationAlgUtils.GenerateEnvironmnent(gs, tl, alg, gridSize);
 
             OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, palette));
         }

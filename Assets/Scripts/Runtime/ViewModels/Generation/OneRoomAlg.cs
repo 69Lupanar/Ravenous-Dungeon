@@ -1,10 +1,6 @@
-using Assets.Scripts.Runtime.Models.Features;
-using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles;
-using Assets.Scripts.Runtime.Models.Tiles.Map;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Unity.Mathematics;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation
 {
@@ -16,22 +12,22 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <summary>
         /// Génère une salle recouvrant toute la carte
         /// </summary>
-        /// <param name="gs">Paramètres de génération</param>
         /// <param name="tileLibrary">Contient les cases utilisés pour la génération</param>
+        /// <param name="gridSize">Les dimensions de la grille</param>
         /// <returns>La grille des cases créées</returns>
-        public static Grid Generate(GenerationSettingsSO gs, TileLibrarySO tileLibrary)
+        public static TileSO[] Generate(TileLibrarySO tileLibrary, int2 gridSize)
         {
-            int2 gridSize = new(Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y),
-                                Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y));
-
             TileSO[] environmentLayer = new TileSO[gridSize.x * gridSize.y];
-            DungeonStructure room = new(new int2(1, 1), gridSize - new int2(gridSize.x - 2, gridSize.y - 2));
-            GenerationUtils.CreateRectangularRoom(gridSize, room.Position, room.Dimensions, tileLibrary, environmentLayer);
 
-            Grid grid = new(gridSize, environmentLayer);
-            grid.SetRooms(new DungeonStructure[1] { room });
-            grid.SetCorridors(new DungeonStructure[0]);
-            return grid;
+            // Remplit la carte de murs pour pouvoir en creuser les salles
+
+            GenerationAlgUtils.FillMap(environmentLayer, gridSize, tileLibrary.WallTile);
+
+            // Creuse une unique salle qui remplit tout l'étage
+
+            GenerationAlgUtils.CreateRectangularRoom(gridSize, new(1, 1), new(gridSize.x - 2, gridSize.y - 2), tileLibrary, environmentLayer);
+
+            return environmentLayer;
         }
     }
 }

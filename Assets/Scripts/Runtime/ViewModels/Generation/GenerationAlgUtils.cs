@@ -1,6 +1,5 @@
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles;
-using Assets.Scripts.Runtime.Models.Tiles.Map;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Unity.Mathematics;
 
@@ -9,7 +8,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
     /// <summary>
     /// Contient les méthodes des algorithmes de génération
     /// </summary>
-    public static class GenerationUtils
+    public static class GenerationAlgUtils
     {
         #region Méthodes publiques
 
@@ -19,13 +18,14 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="gs">Paramètres de génération</param>
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="alg">Algorithme de génération sélectionné</param>
-        public static Grid Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg)
+        /// <param name="gridSize">Les dimensions de la grille</param>
+        public static TileSO[] GenerateEnvironmnent(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, int2 gridSize)
         {
             return alg switch
             {
-                GenerationAlgorithmType.OneRoom => OneRoomAlg.Generate(gs, tl),
-                GenerationAlgorithmType.RoomsAndCorridors => RoomsAndCorridorsAlg.Generate(gs, tl),
-                _ => new(int2.zero, null),
+                GenerationAlgorithmType.OneRoom => OneRoomAlg.Generate(tl, gridSize),
+                GenerationAlgorithmType.RoomsAndCorridors => RoomsAndCorridorsAlg.Generate(gs, tl, gridSize),
+                _ => new TileSO[gridSize.x * gridSize.y],
             };
         }
 
