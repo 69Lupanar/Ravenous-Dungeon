@@ -5,7 +5,7 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
     /// <summary>
     /// Contient les cases utilisés pour la génération
     /// </summary>
-    [CreateAssetMenu(fileName = "New Tile Library", menuName = "Scriptable Objects/Generation/Tile Library")]
+    [CreateAssetMenu(fileName = "New Tile Library", menuName = "Scriptable Objects/Tile Library")]
     public class TileLibrarySO : ScriptableObject
     {
         /// <summary>

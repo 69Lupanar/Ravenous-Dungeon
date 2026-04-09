@@ -1,6 +1,7 @@
 using System;
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.ViewModels.Generation.Algorithms;
 using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
 using UnityEngine;
@@ -63,8 +64,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         public void Generate()
         {
             BiomeTilePaletteSO biomePalette = _generationSettings.Biomes[Random.Range(0, _generationSettings.Biomes.Length)];
-            GenerationAlgorithmType[] algos = _generationSettings.AlgorithmsPerBiome[biomePalette];
-            GenerationAlgorithmType selectedAlg = algos[Random.Range(0, algos.Length)];
+            GenerationAlgorithmSettingsSO[] algos = _generationSettings.AlgorithmsPerBiome[biomePalette];
+            GenerationAlgorithmSettingsSO selectedAlg = algos[Random.Range(0, algos.Length)];
 
             Generate(_generationSettings, _tileLibrary, selectedAlg, biomePalette);
         }
@@ -76,7 +77,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="alg">Algorithme de génération sélectionné</param>
         /// <param name="palette">Contient les sprites utilisés pour l'affichage des cases</param>
-        public void Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, BiomeTilePaletteSO palette)
+        public void Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmSettingsSO alg, BiomeTilePaletteSO palette)
         {
             int2 gridSize = new(Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y),
                                 Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y));
@@ -85,7 +86,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             // Génère l'environnement
 
-            _grid.EnvironmentLayer = GenerationAlgUtils.GenerateEnvironmnent(gs, tl, alg, gridSize);
+            _grid.EnvironmentLayer = GenerationAlgUtils.GenerateEnvironmnent(tl, alg, gridSize);
 
             // Place le joueur sur la carte
 

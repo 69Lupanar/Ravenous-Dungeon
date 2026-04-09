@@ -2,7 +2,7 @@ using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Unity.Mathematics;
 
-namespace Assets.Scripts.Runtime.ViewModels.Generation
+namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 {
     /// <summary>
     /// Algorithme générant une seule salle recouvrant toute la carte

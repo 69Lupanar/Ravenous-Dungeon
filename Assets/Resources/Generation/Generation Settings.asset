@@ -15,15 +15,11 @@ MonoBehaviour:
   <MinMaxGridSize>k__BackingField:
     x: 50
     y: 50
-  <MinMaxNbRooms>k__BackingField:
-    x: 10
-    y: 30
-  <MinMaxRoomSize>k__BackingField:
-    x: 5
-    y: 15
   <Biomes>k__BackingField:
   - {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
   <AlgorithmsPerBiome>k__BackingField:
     _serializedList:
     - Key: {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
-      Value: 0000000001000000
+      Value:
+      - {fileID: 11400000, guid: 8cf095ee92352324db03773cb707abbc, type: 2}
+      - {fileID: 11400000, guid: 04082ad74c292644e96653d9923b5a61, type: 2}

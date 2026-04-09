@@ -6,7 +6,6 @@ using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Runtime.Views.Generation
 {
@@ -113,31 +112,8 @@ namespace Assets.Scripts.Runtime.Views.Generation
             {
                 int2 xy = new(i % gridSize.x, i / gridSize.x);
                 TileEntitySO tile = layer[i];
-                ItemSpawnChance<Tile>[] spawnChances = biomePalette.Tiles[tile];
-                Tile selectedTile = null;
-
-                if (spawnChances.Length == 1)
-                {
-                    selectedTile = spawnChances[0].Value;
-                }
-                else
-                {
-                    float rand = Random.Range(0f, 100f);
-                    float2 curInterval = new(0f, 0f);
-
-                    foreach (ItemSpawnChance<Tile> item in spawnChances)
-                    {
-                        curInterval.y += item.Chance;
-
-                        if (curInterval.x < rand && rand < curInterval.y)
-                        {
-                            selectedTile = item.Value;
-                            break;
-                        }
-
-                        curInterval.x += item.Chance;
-                    }
-                }
+                ItemSpawnChance<Tile>[] possibleTiles = biomePalette.Tiles[tile];
+                Tile selectedTile = possibleTiles.Length == 1 ? possibleTiles[0].Value : ItemSpawnChance<Tile>.Evaluate(possibleTiles);
 
                 _environmentTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
             }

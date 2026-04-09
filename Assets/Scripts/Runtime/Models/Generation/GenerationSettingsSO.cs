@@ -8,7 +8,7 @@ namespace Assets.Scripts.Runtime.Models.Generation
     /// <summary>
     /// Paramètres de génération de la carte
     /// </summary>
-    [CreateAssetMenu(fileName = "Generation Settings", menuName = "Scriptable Objects/Generation/Generation Settings")]
+    [CreateAssetMenu(fileName = "Generation Settings", menuName = "Scriptable Objects/Generation/Generation Settings", order = 0)]
     public sealed class GenerationSettingsSO : ScriptableObject
     {
         /// <summary>
@@ -16,18 +16,6 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// </summary>
         [field: SerializeField]
         public int2 MinMaxGridSize { get; private set; }
-
-        /// <summary>
-        /// L'intervalle possible du nombre max de salles à instancier
-        /// </summary>
-        [field: SerializeField]
-        public int2 MinMaxNbRooms { get; private set; }
-
-        /// <summary>
-        /// L'intervalle possible de la taille des salles à instancier
-        /// </summary>
-        [field: SerializeField]
-        public int2 MinMaxRoomSize { get; private set; }
 
         /// <summary>
         /// Les biomes pouvant être générés
@@ -40,6 +28,6 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// Permet de restreindre certains biomes à certaines structures.
         /// </summary>
         [field: SerializeField]
-        public SerializedDictionary<BiomeTilePaletteSO, GenerationAlgorithmType[]> AlgorithmsPerBiome { get; private set; }
+        public SerializedDictionary<BiomeTilePaletteSO, GenerationAlgorithmSettingsSO[]> AlgorithmsPerBiome { get; private set; }
     }
 }
