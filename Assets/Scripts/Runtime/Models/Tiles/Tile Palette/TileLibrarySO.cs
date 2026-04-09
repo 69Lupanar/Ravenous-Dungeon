@@ -12,30 +12,30 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// La case représentant le joueur
         /// </summary>
         [field: SerializeField]
-        public TileSO PlayerTile { get; private set; }
+        public TileEntitySO PlayerTile { get; private set; }
 
         /// <summary>
         /// La case représentant le mur
         /// </summary>
         [field: SerializeField]
-        public TileSO WallTile { get; private set; }
+        public TileEntitySO WallTile { get; private set; }
 
         /// <summary>
         /// La case représentant le sol
         /// </summary>
         [field: SerializeField]
-        public TileSO GroundTile { get; private set; }
+        public TileEntitySO GroundTile { get; private set; }
 
         /// <summary>
         /// La case représentant les zones encore non explorées
         /// </summary>
         [field: SerializeField]
-        public TileSO UnknownTile { get; private set; }
+        public TileEntitySO UnknownTile { get; private set; }
 
         /// <summary>
         /// La case représentant les portes
         /// </summary>
         [field: SerializeField]
-        public TileSO DoorTile { get; private set; }
+        public TileEntitySO DoorTile { get; private set; }
     }
 }

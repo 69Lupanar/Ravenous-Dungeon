@@ -16,6 +16,6 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// </summary>
         [field: SerializedDictionary("Tile", "Possible Sprites")]
         [field: SerializeField]
-        public SerializedDictionary<TileSO, ItemSpawnChance<UnityEngine.Tilemaps.Tile>[]> Tiles { get; private set; }
+        public SerializedDictionary<TileEntitySO, ItemSpawnChance<UnityEngine.Tilemaps.Tile>[]> Tiles { get; private set; }
     }
 }

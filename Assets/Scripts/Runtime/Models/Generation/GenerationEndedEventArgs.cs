@@ -1,5 +1,5 @@
 using System;
-using Assets.Scripts.Runtime.Models.Tiles.Map;
+using Assets.Scripts.Runtime.Models.Map;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 
 namespace Assets.Scripts.Runtime.Models.Generation

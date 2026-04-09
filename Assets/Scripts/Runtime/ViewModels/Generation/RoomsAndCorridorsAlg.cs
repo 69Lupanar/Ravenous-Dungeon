@@ -30,13 +30,13 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="tileLibrary">Contient les cases utilisés pour la génération</param>
         /// <param name="gridSize">Les dimensions de la grille</param>
         /// <returns>La grille des cases créées</returns>
-        public static TileSO[] Generate(GenerationSettingsSO gs, TileLibrarySO tileLibrary, int2 gridSize)
+        public static TileEntitySO[] GenerateEnvironmnent(GenerationSettingsSO gs, TileLibrarySO tileLibrary, int2 gridSize)
         {
             int nbMaxRooms = Random.Range(gs.MinMaxNbRooms.x, gs.MinMaxNbRooms.y);
             int nbAttemps = 0;
             int nbRoomsCreated = 0;
 
-            TileSO[] environmentLayer = new TileSO[gridSize.x * gridSize.y];
+            TileEntitySO[] environmentLayer = new TileEntitySO[gridSize.x * gridSize.y];
             _rooms.Clear();
             _corridors.Clear();
 

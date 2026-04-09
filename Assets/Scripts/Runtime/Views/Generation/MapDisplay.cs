@@ -2,6 +2,7 @@ using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.ViewModels.Generation;
+using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,16 +24,37 @@ namespace Assets.Scripts.Runtime.Views.Generation
         public MapGenerator _mapGenerator { get; private set; }
 
         /// <summary>
+        /// Le PlayerController
+        /// </summary>
+        [field: SerializeField]
+        public PlayerController _playerController { get; private set; }
+
+        /// <summary>
         /// La couche de la tilemap contenant les cases de l'environnement
         /// </summary>
         [field: SerializeField]
-        public Tilemap _environmentTileMap { get; private set; }
+        public Tilemap _environmentTilemap { get; private set; }
+
+        /// <summary>
+        /// La couche de la tilemap contenant le joueur
+        /// </summary>
+        [field: SerializeField]
+        public Tilemap _playerTilemap { get; private set; }
 
         /// <summary>
         /// Contient les sprites utilisés pour l'affichage des cases
         /// </summary>
         [field: SerializeField]
         public SpriteLibrarySO _spriteLibrary { get; private set; }
+
+        #endregion
+
+        #region Variables d'instance
+
+        /// <summary>
+        /// La palette du niveau actuel
+        /// </summary>
+        private BiomeTilePaletteSO _curPalette;
 
         #endregion
 
@@ -56,19 +78,6 @@ namespace Assets.Scripts.Runtime.Views.Generation
 
         #endregion
 
-        #region Méthodes publiques
-
-        /// <summary>
-        /// Efface la carte
-        /// </summary>
-        [ContextMenu("Clear")]
-        public void Clear()
-        {
-            _environmentTileMap.ClearAllTiles();
-        }
-
-        #endregion
-
         #region Méthodes privées
 
         /// <summary>
@@ -78,50 +87,71 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void OnGenerationEnded(object _, GenerationEndedEventArgs e)
         {
             Clear();
-            Display(e.Grid, e.BiomePalette);
+            _curPalette = e.BiomePalette;
+            DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.BiomePalette);
+            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos);
+        }
+
+        /// <summary>
+        /// Efface la carte
+        /// </summary>
+        private void Clear()
+        {
+            _environmentTilemap.ClearAllTiles();
+            _playerTilemap.ClearAllTiles();
         }
 
         /// <summary>
         /// Affiche la carte à l'écran
         /// </summary>
-        /// <param name="grid">La grille des cases créées</param>
+        /// <param name="gridSize">Les dimensions de la grille</param>
+        /// <param name="layer">La couche à afficher</param>
         /// <param name="biomePalette">Contient les sprites utilisés pour l'affichage des cases</param>
-        public void Display(Models.Tiles.Map.Grid grid, BiomeTilePaletteSO biomePalette)
+        private void DisplayEnvironment(int2 gridSize, TileEntitySO[] layer, BiomeTilePaletteSO biomePalette)
         {
-            for (int y = 0; y < grid.GridSize.y; ++y)
+            for (int i = 0; i < layer.Length; ++i)
             {
-                for (int x = 0; x < grid.GridSize.x; ++x)
+                int2 xy = new(i % gridSize.x, i / gridSize.x);
+                TileEntitySO tile = layer[i];
+                ItemSpawnChance<Tile>[] spawnChances = biomePalette.Tiles[tile];
+                Tile selectedTile = null;
+
+                if (spawnChances.Length == 1)
                 {
-                    TileSO tile = grid.EnvironmentLayer[grid.ToIndex(x, y)];
-                    ItemSpawnChance<Tile>[] spawnChances = biomePalette.Tiles[tile];
-                    Tile selectedTile = null;
-
-                    if (spawnChances.Length == 1)
-                    {
-                        selectedTile = spawnChances[0].Value;
-                    }
-                    else
-                    {
-                        float rand = Random.Range(0f, 100f);
-                        float2 curInterval = new(0f, 0f);
-
-                        foreach (ItemSpawnChance<Tile> item in spawnChances)
-                        {
-                            curInterval.y += item.Chance;
-
-                            if (curInterval.x < rand && rand < curInterval.y)
-                            {
-                                selectedTile = item.Value;
-                                break;
-                            }
-
-                            curInterval.x += item.Chance;
-                        }
-                    }
-
-                    _environmentTileMap.SetTile(new Vector3Int(x, y), selectedTile);
+                    selectedTile = spawnChances[0].Value;
                 }
+                else
+                {
+                    float rand = Random.Range(0f, 100f);
+                    float2 curInterval = new(0f, 0f);
+
+                    foreach (ItemSpawnChance<Tile> item in spawnChances)
+                    {
+                        curInterval.y += item.Chance;
+
+                        if (curInterval.x < rand && rand < curInterval.y)
+                        {
+                            selectedTile = item.Value;
+                            break;
+                        }
+
+                        curInterval.x += item.Chance;
+                    }
+                }
+
+                _environmentTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
             }
+        }
+
+        /// <summary>
+        /// Affiche le joueur sur la carte
+        /// </summary>
+        /// <param name="previousPos">La position précédente du joueur</param>
+        /// <param name="curPos">La position actuelle du joueur</param>
+        private void DisplayPlayer(Vector3Int previousPos, Vector3Int curPos)
+        {
+            _playerTilemap.SetTile(previousPos, null);
+            _playerTilemap.SetTile(curPos, _spriteLibrary.PlayerSprite);
         }
 
         #endregion

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f78d9eaf1a661a489b6a20a4fbdb31b, type: 3}
   m_Name: Door
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Environment.Ground
+  <LayerMask>k__BackingField: 1
   <Description>k__BackingField: A door, passable by you and most monsters.

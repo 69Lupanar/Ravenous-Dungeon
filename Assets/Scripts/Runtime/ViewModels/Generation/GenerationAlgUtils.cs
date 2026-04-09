@@ -19,13 +19,13 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="alg">Algorithme de génération sélectionné</param>
         /// <param name="gridSize">Les dimensions de la grille</param>
-        public static TileSO[] GenerateEnvironmnent(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, int2 gridSize)
+        public static TileEntitySO[] GenerateEnvironmnent(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmType alg, int2 gridSize)
         {
             return alg switch
             {
-                GenerationAlgorithmType.OneRoom => OneRoomAlg.Generate(tl, gridSize),
-                GenerationAlgorithmType.RoomsAndCorridors => RoomsAndCorridorsAlg.Generate(gs, tl, gridSize),
-                _ => new TileSO[gridSize.x * gridSize.y],
+                GenerationAlgorithmType.OneRoom => OneRoomAlg.GenerateEnvironmnent(tl, gridSize),
+                GenerationAlgorithmType.RoomsAndCorridors => RoomsAndCorridorsAlg.GenerateEnvironmnent(gs, tl, gridSize),
+                _ => new TileEntitySO[gridSize.x * gridSize.y],
             };
         }
 
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <summary>
         /// Remplit la carte entière d'un seul type de case
         /// </summary>
-        public static void FillMap(TileSO[] environmentLayer, int2 gridSize, TileSO tile)
+        public static void FillMap(TileEntitySO[] environmentLayer, int2 gridSize, TileEntitySO tile)
         {
             for (int y = 0; y < gridSize.y; ++y)
             {
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="dimensions">Les dimensions de la structure</param>
         /// <param name="tileLibrary">Contient les cases utilisés pour la génération</param>
         /// <param name="environmentLayer">Couche de la tilemap représentant l'environnement</param>
-        public static void CreateRectangularRoom(int2 gridSize, int2 position, int2 dimensions, TileLibrarySO tileLibrary, TileSO[] environmentLayer)
+        public static void CreateRectangularRoom(int2 gridSize, int2 position, int2 dimensions, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
         {
             for (int y = position.y; y < position.y + dimensions.y; ++y)
             {
@@ -74,7 +74,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="yPosition"></param>
         /// <param name="tileLibrary"></param>
         /// <param name="environmentLayer"></param>
-        public static void CreateHorizontalTunnel(int2 gridSize, int xStart, int xEnd, int yPosition, TileLibrarySO tileLibrary, TileSO[] environmentLayer)
+        public static void CreateHorizontalTunnel(int2 gridSize, int xStart, int xEnd, int yPosition, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
         {
             for (int x = math.min(xStart, xEnd); x <= math.max(xStart, xEnd); ++x)
             {
@@ -91,7 +91,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="xPosition"></param>
         /// <param name="tileLibrary"></param>
         /// <param name="environmentLayer"></param>
-        public static void CreateVerticalTunnel(int2 gridSize, int yStart, int yEnd, int xPosition, TileLibrarySO tileLibrary, TileSO[] environmentLayer)
+        public static void CreateVerticalTunnel(int2 gridSize, int yStart, int yEnd, int xPosition, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
         {
             for (int y = math.min(yStart, yEnd); y <= math.max(yStart, yEnd); ++y)
             {

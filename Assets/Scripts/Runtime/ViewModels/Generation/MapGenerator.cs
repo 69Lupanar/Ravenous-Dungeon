@@ -1,9 +1,10 @@
 using System;
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
 using UnityEngine;
-using Grid = Assets.Scripts.Runtime.Models.Tiles.Map.Grid;
+using Grid = Assets.Scripts.Runtime.Models.Map.Grid;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation
@@ -35,6 +36,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// </summary>
         [field: SerializeField]
         public TileLibrarySO _tileLibrary { get; private set; }
+
+        /// <summary>
+        /// Le PlayerController
+        /// </summary>
+        [field: SerializeField]
+        public PlayerController _playerController { get; private set; }
 
         #endregion
 
@@ -79,6 +86,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
             // Génère l'environnement
 
             _grid.EnvironmentLayer = GenerationAlgUtils.GenerateEnvironmnent(gs, tl, alg, gridSize);
+
+            // Place le joueur sur la carte
+
+            _playerController.SetGrid(_grid);
+            _playerController.SpawnPlayer(_grid);
 
             OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, palette));
         }

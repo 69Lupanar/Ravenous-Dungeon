@@ -5,8 +5,14 @@ namespace Assets.Scripts.Runtime.Models.Tiles
     /// <summary>
     /// Représente les propriétés d'une case (mur, sol, etc.)
     /// </summary>
-    public class TileSO : ScriptableObject
+    public class TileEntitySO : ScriptableObject
     {
+        /// <summary>
+        /// Les attributs de cette case
+        /// </summary>
+        [field: SerializeField]
+        public EnvironmentTileLayerMask LayerMask { get; private set; }
+
         /// <summary>
         /// La description de la case
         /// </summary>

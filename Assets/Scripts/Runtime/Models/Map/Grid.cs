@@ -1,6 +1,8 @@
+using Assets.Scripts.Runtime.Models.Tiles;
 using Unity.Mathematics;
+using UnityEngine;
 
-namespace Assets.Scripts.Runtime.Models.Tiles.Map
+namespace Assets.Scripts.Runtime.Models.Map
 {
     /// <summary>
     /// Grille contenant les cases pour chaque couche de la carte
@@ -17,7 +19,7 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Map
         /// <summary>
         /// Couche contenant les cases de l'environnment
         /// </summary>
-        public TileSO[] EnvironmentLayer { get; set; }
+        public TileEntitySO[] EnvironmentLayer { get; set; }
 
         #endregion
 
@@ -42,6 +44,22 @@ namespace Assets.Scripts.Runtime.Models.Tiles.Map
         public int ToIndex(int x, int y)
         {
             return x + y * GridSize.x;
+        }
+
+        /// <summary>
+        /// Convertit les coordonnées en index
+        /// </summary>
+        public int2 ToInt2(int index)
+        {
+            return new int2(index % GridSize.x, index / GridSize.x);
+        }
+
+        /// <summary>
+        /// Convertit les coordonnées en index
+        /// </summary>
+        public Vector3Int ToV3Int(int index)
+        {
+            return new Vector3Int(index % GridSize.x, index / GridSize.x, 0);
         }
 
         #endregion
