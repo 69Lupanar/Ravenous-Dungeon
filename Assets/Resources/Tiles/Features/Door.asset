@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Door
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Environment.Ground
   <LayerMask>k__BackingField: 1
+  <SeeThrough>k__BackingField: 1
   <Description>k__BackingField: A door, passable by you and most monsters.

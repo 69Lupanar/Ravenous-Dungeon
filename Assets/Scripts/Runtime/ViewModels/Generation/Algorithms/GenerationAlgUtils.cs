@@ -1,4 +1,5 @@
 using Assets.Scripts.Runtime.Models.Generation;
+using Assets.Scripts.Runtime.Models.Map;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Unity.Mathematics;
@@ -17,15 +18,29 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// </summary>
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="alg">Algorithme de génération sélectionné</param>
-        /// <param name="gridSize">Les dimensions de la grille</param>
-        public static TileEntitySO[] GenerateEnvironmnent(TileLibrarySO tl, GenerationAlgorithmSettingsSO alg, int2 gridSize)
+        /// <param name="grid">La grille</param>
+        public static void GenerateEnvironmnent(TileLibrarySO tl, GenerationAlgorithmSettingsSO alg, Grid grid)
         {
-            return alg switch
+            switch (alg)
             {
-                OneRoomAlgorithmSettingsSO => OneRoomAlg.GenerateEnvironmnent(tl, gridSize),
-                RoomsAndCorridorsAlgorithmSettingsSO settings => RoomsAndCorridorsAlg.GenerateEnvironmnent(settings, tl, gridSize),
-                _ => new TileEntitySO[gridSize.x * gridSize.y],
-            };
+                case OneRoomAlgorithmSettingsSO:
+                    OneRoomAlg.GenerateEnvironmnent(tl, grid);
+                    break;
+                case RoomsAndCorridorsAlgorithmSettingsSO settings:
+                    RoomsAndCorridorsAlg.GenerateEnvironmnent(settings, tl, grid);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Génère une nouvelle carte
+        /// </summary>
+        /// <param name="gs">Paramètres de génération</param>
+        /// <param name="tl">Contient les cases utilisés pour la génération</param>
+        /// <param name="grid">La grille</param>
+        internal static void GenerateFeatures(GenerationSettingsSO gs, TileLibrarySO tl, Grid grid)
+        {
+
         }
 
         #region Dungeon Structures

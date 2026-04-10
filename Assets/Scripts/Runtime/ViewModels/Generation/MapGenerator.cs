@@ -86,7 +86,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             // Génère l'environnement
 
-            _grid.EnvironmentLayer = GenerationAlgUtils.GenerateEnvironmnent(tl, alg, gridSize);
+            GenerationAlgUtils.GenerateEnvironmnent(tl, alg, _grid);
+
+            // Génère les Features
+
+            GenerationAlgUtils.GenerateFeatures(gs, tl, _grid);
 
             // Place le joueur sur la carte
 

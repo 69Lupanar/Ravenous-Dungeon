@@ -1,3 +1,4 @@
+using Assets.Scripts.Runtime.Models.Features;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,6 +21,16 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// Couche contenant les cases de l'environnment
         /// </summary>
         public TileEntitySO[] EnvironmentLayer { get; set; }
+
+        /// <summary>
+        /// Liste des salles du niveau
+        /// </summary>
+        public DungeonStructure[] Rooms { get; set; }
+
+        /// <summary>
+        /// Liste des corridors du niveau
+        /// </summary>
+        public DungeonStructure[] Corridors { get; set; }
 
         #endregion
 

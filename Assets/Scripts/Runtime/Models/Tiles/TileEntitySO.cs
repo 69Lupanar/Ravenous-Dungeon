@@ -14,6 +14,12 @@ namespace Assets.Scripts.Runtime.Models.Tiles
         public EnvironmentTileLayerMask LayerMask { get; private set; }
 
         /// <summary>
+        /// true si le joueur peut voir à travers cette case
+        /// </summary>
+        [field: SerializeField]
+        public bool SeeThrough { get; private set; }
+
+        /// <summary>
         /// La description de la case
         /// </summary>
         [field: SerializeField, TextArea(3, 5)]
