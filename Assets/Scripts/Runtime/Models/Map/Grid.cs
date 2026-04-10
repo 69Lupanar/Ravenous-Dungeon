@@ -62,6 +62,15 @@ namespace Assets.Scripts.Runtime.Models.Map
             return new Vector3Int(index % GridSize.x, index / GridSize.x, 0);
         }
 
+        /// <summary>
+        /// Indique si les coordonnées tombent en dehors de la grille
+        /// </summary>
+        /// <param name="coords">Les coordonnées</param>
+        public bool OutOfBounds(Vector3Int coords)
+        {
+            return coords.x < 0 || coords.x >= GridSize.x || coords.y < 0 || coords.y >= GridSize.y;
+        }
+
         #endregion
     }
 }

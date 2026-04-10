@@ -1,4 +1,7 @@
+using System;
+using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.Tiles;
+using Unity.Mathematics;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Map.Grid;
 
@@ -8,8 +11,17 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
     /// Chargé d'instancier et contrôler le joueur
     /// après la génération d'un niveau
     /// </summary>
-    public class PlayerController : MonoBehaviour
+    public sealed class PlayerController : MonoBehaviour
     {
+        #region Evénements
+
+        /// <summary>
+        /// Appelé quand le joueur déplace le personnage
+        /// </summary>
+        public EventHandler<PlayerMovedEventArgs> OnPlayerMoved;
+
+        #endregion
+
         #region Propriétés
 
         /// <summary>
@@ -20,6 +32,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         #endregion
 
         #region Variables Unity
+
+        /// <summary>
+        /// Les inputs du joueur
+        /// </summary>
+        [SerializeField]
+        private PlayerInput _input;
 
         /// <summary>
         /// Indique les types de cases où le joueur peut être instancié
@@ -44,6 +62,36 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
         #endregion
 
+        #region Méthodes Unity
+
+        /// <summary>
+        /// màj à chaque frame
+        /// </summary>
+        private void Update()
+        {
+            if (_grid != null)
+            {
+                Vector3Int newPos = PlayerPos + new Vector3Int(_input.MoveDirection.x, _input.MoveDirection.y, 0);
+
+                if (!_grid.OutOfBounds(newPos))
+                {
+                    TileEntitySO destTile = _grid.EnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
+
+                    if (TileIsWalkable(destTile.LayerMask))
+                    {
+                        Vector3Int previousPos = PlayerPos;
+                        PlayerPos = newPos;
+
+                        OnPlayerMoved?.Invoke(this, new PlayerMovedEventArgs(previousPos, newPos));
+                    }
+                }
+            }
+
+            _input.MoveDirection = int2.zero;
+        }
+
+        #endregion
+
         #region Méthodes publiques
 
         /// <summary>
@@ -63,15 +111,24 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// <param name="grid">Grille contenant les cases</param>
         public void SpawnPlayer(Grid grid)
         {
-            int index = 0;
+            int index;
 
             do
             {
-                index = Random.Range(0, grid.EnvironmentLayer.Length);
+                index = UnityEngine.Random.Range(0, grid.EnvironmentLayer.Length);
             }
             while (!_playerSpawnMask.HasFlag(grid.EnvironmentLayer[index].LayerMask));
 
             PlayerPos = grid.ToV3Int(index);
+        }
+
+        /// <summary>
+        /// Indique si la case est naviguable par le joueur
+        /// </summary>
+        /// <param name="layerMask">Les attributs de la case</param>
+        public bool TileIsWalkable(EnvironmentTileLayerMask layerMask)
+        {
+            return _playerWalkableMask.HasFlag(layerMask);
         }
 
         #endregion

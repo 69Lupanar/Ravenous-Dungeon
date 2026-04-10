@@ -1,4 +1,5 @@
 using Assets.Scripts.Runtime.Models.Generation;
+using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.ViewModels.Generation;
@@ -65,6 +66,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void Awake()
         {
             _mapGenerator.OnGenerationEnded += OnGenerationEnded;
+            _playerController.OnPlayerMoved += OnPlayerMoved;
         }
 
         /// <summary>
@@ -73,6 +75,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void OnDestroy()
         {
             _mapGenerator.OnGenerationEnded -= OnGenerationEnded;
+            _playerController.OnPlayerMoved -= OnPlayerMoved;
         }
 
         #endregion
@@ -89,6 +92,15 @@ namespace Assets.Scripts.Runtime.Views.Generation
             _curPalette = e.BiomePalette;
             DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.BiomePalette);
             DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos);
+        }
+
+        /// <summary>
+        /// Appelée quand le joueur déplace son personnage
+        /// </summary>
+        /// <param name="e">Les infos sur l'action</param>
+        private void OnPlayerMoved(object _, PlayerMovedEventArgs e)
+        {
+            DisplayPlayer(e.PreviousPos, e.NewPos);
         }
 
         /// <summary>
