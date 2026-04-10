@@ -20,7 +20,7 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Couche contenant les cases de l'environnment
         /// </summary>
-        public TileEntitySO[] EnvironmentLayer { get; set; }
+        public EnvironmentTileSO[] EnvironmentLayer { get; set; }
 
         /// <summary>
         /// Liste des salles du niveau

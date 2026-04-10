@@ -19,11 +19,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <returns>La grille des cases créées</returns>
         public static void GenerateEnvironmnent(TileLibrarySO tileLibrary, Grid grid)
         {
-            TileEntitySO[] environmentLayer = new TileEntitySO[grid.GridSize.x * grid.GridSize.y];
+            EnvironmentTileSO[] environmentLayer = new EnvironmentTileSO[grid.GridSize.x * grid.GridSize.y];
 
             // Remplit la carte de murs pour pouvoir en creuser les salles
 
-            GenerationAlgUtils.FillMap(environmentLayer, grid.GridSize, tileLibrary.WallTile);
+            GenerationAlgUtils.FillMap(environmentLayer, grid.GridSize, tileLibrary.WallTiles);
 
             // Creuse une unique salle qui remplit tout l'étage
 

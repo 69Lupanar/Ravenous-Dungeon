@@ -9,18 +9,6 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
     public class TileLibrarySO : ScriptableObject
     {
         /// <summary>
-        /// La case représentant le joueur
-        /// </summary>
-        [field: SerializeField]
-        public TileEntitySO PlayerTile { get; private set; }
-
-        /// <summary>
-        /// La case représentant le mur
-        /// </summary>
-        [field: SerializeField]
-        public TileEntitySO WallTile { get; private set; }
-
-        /// <summary>
         /// La case représentant le sol
         /// </summary>
         [field: SerializeField]
@@ -33,9 +21,16 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         public TileEntitySO UnknownTile { get; private set; }
 
         /// <summary>
+        /// La case représentant le mur
+        /// </summary>
+        [field: SerializeField]
+        public ItemSelectionChance<TileEntitySO>[] WallTiles { get; private set; }
+
+
+        /// <summary>
         /// La case représentant les portes
         /// </summary>
         [field: SerializeField]
-        public TileEntitySO DoorTile { get; private set; }
+        public ItemSelectionChance<TileEntitySO>[] DoorTiles { get; private set; }
     }
 }

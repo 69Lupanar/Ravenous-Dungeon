@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
@@ -15,9 +16,10 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         public UnityEngine.Tilemaps.Tile PlayerSprite { get; private set; }
 
         /// <summary>
-        /// Les palettes de sprite pour les différents biomes du jeu
+        /// Les sprites représentant leurs cases associées
         /// </summary>
+        [field: SerializedDictionary("Tile", "Possible Sprites")]
         [field: SerializeField]
-        public BiomeTilePaletteSO[] Palettes { get; private set; }
+        public SerializedDictionary<TileEntitySO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> Tiles { get; private set; }
     }
 }

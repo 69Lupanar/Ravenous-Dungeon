@@ -20,5 +20,12 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// </summary>
         [field: SerializeField]
         public int2 MinMaxRoomSize { get; private set; }
+
+        /// <summary>
+        /// %age de chance possible de placer une porte lorsque
+        /// le cas se présente
+        /// </summary>
+        [field: SerializeField, Range(0f, 100f)]
+        public int DoorSpawnRate { get; private set; }
     }
 }

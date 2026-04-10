@@ -2,6 +2,7 @@ using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Map;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.ViewModels.Extensions;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
@@ -35,12 +36,20 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <summary>
         /// Génère une nouvelle carte
         /// </summary>
-        /// <param name="gs">Paramètres de génération</param>
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
+        /// <param name="alg">Algorithme de génération sélectionné</param>
         /// <param name="grid">La grille</param>
-        internal static void GenerateFeatures(GenerationSettingsSO gs, TileLibrarySO tl, Grid grid)
+        public static void GenerateFeatures(TileLibrarySO tl, GenerationAlgorithmSettingsSO alg, Grid grid)
         {
+            switch (alg)
+            {
+                case OneRoomAlgorithmSettingsSO:
 
+                    break;
+                case RoomsAndCorridorsAlgorithmSettingsSO settings:
+
+                    break;
+            }
         }
 
         #region Dungeon Structures
@@ -60,6 +69,20 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         }
 
         /// <summary>
+        /// Remplit la carte entière d'un seul type de case
+        /// </summary>
+        public static void FillMap(TileEntitySO[] environmentLayer, int2 gridSize, ItemSelectionChance<TileEntitySO>[] tiles)
+        {
+            for (int y = 0; y < gridSize.y; ++y)
+            {
+                for (int x = 0; x < gridSize.x; ++x)
+                {
+                    environmentLayer[x + y * gridSize.x] = tiles.Sample();
+                }
+            }
+        }
+
+        /// <summary>
         /// Génère une structure rectangulaire
         /// </summary>
         /// <param name="gridSize">Dimensions de la grille</param>
@@ -67,13 +90,13 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <param name="dimensions">Les dimensions de la structure</param>
         /// <param name="tileLibrary">Contient les cases utilisés pour la génération</param>
         /// <param name="environmentLayer">Couche de la tilemap représentant l'environnement</param>
-        public static void CreateRectangularRoom(int2 gridSize, int2 position, int2 dimensions, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
+        public static void CreateRectangularRoom(int2 gridSize, int2 position, int2 dimensions, TileLibrarySO tileLibrary, EnvironmentTileSO[] environmentLayer)
         {
             for (int y = position.y; y < position.y + dimensions.y; ++y)
             {
                 for (int x = position.x; x < position.x + dimensions.x; ++x)
                 {
-                    environmentLayer[x + y * gridSize.x] = tileLibrary.GroundTile;
+                    environmentLayer[x + y * gridSize.x] = (EnvironmentTileSO)tileLibrary.GroundTile;
                 }
             }
         }
@@ -88,11 +111,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <param name="yPosition"></param>
         /// <param name="tileLibrary"></param>
         /// <param name="environmentLayer"></param>
-        public static void CreateHorizontalTunnel(int2 gridSize, int xStart, int xEnd, int yPosition, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
+        public static void CreateHorizontalTunnel(int2 gridSize, int xStart, int xEnd, int yPosition, TileLibrarySO tileLibrary, EnvironmentTileSO[] environmentLayer)
         {
             for (int x = math.min(xStart, xEnd); x <= math.max(xStart, xEnd); ++x)
             {
-                environmentLayer[x + yPosition * gridSize.x] = tileLibrary.GroundTile;
+                environmentLayer[x + yPosition * gridSize.x] = (EnvironmentTileSO)tileLibrary.GroundTile;
             }
         }
 
@@ -105,11 +128,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <param name="xPosition"></param>
         /// <param name="tileLibrary"></param>
         /// <param name="environmentLayer"></param>
-        public static void CreateVerticalTunnel(int2 gridSize, int yStart, int yEnd, int xPosition, TileLibrarySO tileLibrary, TileEntitySO[] environmentLayer)
+        public static void CreateVerticalTunnel(int2 gridSize, int yStart, int yEnd, int xPosition, TileLibrarySO tileLibrary, EnvironmentTileSO[] environmentLayer)
         {
             for (int y = math.min(yStart, yEnd); y <= math.max(yStart, yEnd); ++y)
             {
-                environmentLayer[xPosition + y * gridSize.x] = tileLibrary.GroundTile;
+                environmentLayer[xPosition + y * gridSize.x] = (EnvironmentTileSO)tileLibrary.GroundTile;
             }
         }
 

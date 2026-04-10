@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547c11250a6857e4990bbfd1509098c9, type: 3}
   m_Name: Test Tile Library
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.TilePalette.TileLibrarySO
-  <PlayerTile>k__BackingField: {fileID: 11400000, guid: abc08d373ac20294bab96753f916de29, type: 2}
-  <WallTile>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
+  <WallTiles>k__BackingField:
+  - <Value>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
+    <Chance>k__BackingField: 0
   <GroundTile>k__BackingField: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
   <UnknownTile>k__BackingField: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}
-  <DoorTile>k__BackingField: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
+  <DoorTiles>k__BackingField:
+  - <Value>k__BackingField: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
+    <Chance>k__BackingField: 0

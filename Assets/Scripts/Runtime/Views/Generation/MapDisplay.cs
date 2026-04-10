@@ -2,6 +2,7 @@ using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.ViewModels.Extensions;
 using Assets.Scripts.Runtime.ViewModels.Generation;
 using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
@@ -41,12 +42,6 @@ namespace Assets.Scripts.Runtime.Views.Generation
         [field: SerializeField]
         public Tilemap _playerTilemap { get; private set; }
 
-        /// <summary>
-        /// Contient les sprites utilisés pour l'affichage des cases
-        /// </summary>
-        [field: SerializeField]
-        public SpriteLibrarySO _spriteLibrary { get; private set; }
-
         #endregion
 
         #region Variables d'instance
@@ -54,7 +49,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <summary>
         /// La palette du niveau actuel
         /// </summary>
-        private BiomeTilePaletteSO _curPalette;
+        private SpriteLibrarySO _curPalette;
 
         #endregion
 
@@ -89,9 +84,9 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void OnGenerationEnded(object _, GenerationEndedEventArgs e)
         {
             Clear();
-            _curPalette = e.BiomePalette;
-            DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.BiomePalette);
-            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos);
+            _curPalette = e.SpriteLibrary;
+            DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.SpriteLibrary);
+            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, e.SpriteLibrary);
         }
 
         /// <summary>
@@ -100,7 +95,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <param name="e">Les infos sur l'action</param>
         private void OnPlayerMoved(object _, PlayerMovedEventArgs e)
         {
-            DisplayPlayer(e.PreviousPos, e.NewPos);
+            DisplayPlayer(e.PreviousPos, e.NewPos, _curPalette);
         }
 
         /// <summary>
@@ -117,15 +112,15 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// </summary>
         /// <param name="gridSize">Les dimensions de la grille</param>
         /// <param name="layer">La couche à afficher</param>
-        /// <param name="biomePalette">Contient les sprites utilisés pour l'affichage des cases</param>
-        private void DisplayEnvironment(int2 gridSize, TileEntitySO[] layer, BiomeTilePaletteSO biomePalette)
+        /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
+        private void DisplayEnvironment(int2 gridSize, TileEntitySO[] layer, SpriteLibrarySO sl)
         {
             for (int i = 0; i < layer.Length; ++i)
             {
                 int2 xy = new(i % gridSize.x, i / gridSize.x);
                 TileEntitySO tile = layer[i];
-                ItemSpawnChance<Tile>[] possibleTiles = biomePalette.Tiles[tile];
-                Tile selectedTile = possibleTiles.Length == 1 ? possibleTiles[0].Value : ItemSpawnChance<Tile>.Evaluate(possibleTiles);
+                ItemSelectionChance<Tile>[] possibleTiles = sl.Tiles[tile];
+                Tile selectedTile = possibleTiles.Sample();
 
                 _environmentTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
             }
@@ -136,10 +131,11 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// </summary>
         /// <param name="previousPos">La position précédente du joueur</param>
         /// <param name="curPos">La position actuelle du joueur</param>
-        private void DisplayPlayer(Vector3Int previousPos, Vector3Int curPos)
+        /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
+        private void DisplayPlayer(Vector3Int previousPos, Vector3Int curPos, SpriteLibrarySO sl)
         {
             _playerTilemap.SetTile(previousPos, null);
-            _playerTilemap.SetTile(curPos, _spriteLibrary.PlayerSprite);
+            _playerTilemap.SetTile(curPos, sl.PlayerSprite);
         }
 
         #endregion

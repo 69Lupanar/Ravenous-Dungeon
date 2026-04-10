@@ -18,3 +18,4 @@ MonoBehaviour:
   <MinMaxRoomSize>k__BackingField:
     x: 5
     y: 15
+  <DoorSpawnRate>k__BackingField: 50

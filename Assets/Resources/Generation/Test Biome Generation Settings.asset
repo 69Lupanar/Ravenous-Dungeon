@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1e3302d6c513d74caa35603440a4514, type: 3}
-  m_Name: Generation Settings
+  m_Name: Test Biome Generation Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Generation.GenerationSettings
   <MinMaxGridSize>k__BackingField:
     x: 50
     y: 50
-  <Biomes>k__BackingField:
-  - {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
-  <AlgorithmsPerBiome>k__BackingField:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: ac71ffc976b75f0459ef7d74763b46c0, type: 2}
-      Value:
-      - {fileID: 11400000, guid: 8cf095ee92352324db03773cb707abbc, type: 2}
-      - {fileID: 11400000, guid: 04082ad74c292644e96653d9923b5a61, type: 2}
+  <Algorithms>k__BackingField:
+  - <Value>k__BackingField: {fileID: 11400000, guid: 8cf095ee92352324db03773cb707abbc, type: 2}
+    <Chance>k__BackingField: 50
+  - <Value>k__BackingField: {fileID: 11400000, guid: 04082ad74c292644e96653d9923b5a61, type: 2}
+    <Chance>k__BackingField: 50
+  <SpriteLibrary>k__BackingField: {fileID: 11400000, guid: b71f19eeb538f1f4699ab1274eeaab06, type: 2}

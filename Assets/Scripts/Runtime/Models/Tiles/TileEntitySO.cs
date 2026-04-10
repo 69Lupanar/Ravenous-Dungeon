@@ -7,17 +7,8 @@ namespace Assets.Scripts.Runtime.Models.Tiles
     /// </summary>
     public class TileEntitySO : ScriptableObject
     {
-        /// <summary>
-        /// Les attributs de cette case
-        /// </summary>
-        [field: SerializeField]
-        public EnvironmentTileLayerMask LayerMask { get; private set; }
-
-        /// <summary>
-        /// true si le joueur peut voir à travers cette case
-        /// </summary>
-        [field: SerializeField]
-        public bool SeeThrough { get; private set; }
+        [field: Header("General")]
+        [field: Space(10)]
 
         /// <summary>
         /// La description de la case

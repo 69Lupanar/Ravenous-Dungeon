@@ -75,7 +75,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
                 if (!_grid.OutOfBounds(newPos))
                 {
-                    TileEntitySO destTile = _grid.EnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
+                    EnvironmentTileSO destTile = _grid.EnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
 
                     if (TileIsWalkable(destTile.LayerMask))
                     {

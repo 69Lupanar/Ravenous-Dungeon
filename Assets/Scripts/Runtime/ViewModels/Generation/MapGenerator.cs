@@ -1,6 +1,6 @@
 using System;
 using Assets.Scripts.Runtime.Models.Generation;
-using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.ViewModels.Extensions;
 using Assets.Scripts.Runtime.ViewModels.Generation.Algorithms;
 using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Mathematics;
@@ -27,16 +27,10 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         #region Variables Unity
 
         /// <summary>
-        /// Paramètres de génération
+        /// Liste de paramètres de génération possibles
         /// </summary>
         [field: SerializeField]
-        public GenerationSettingsSO _generationSettings { get; private set; }
-
-        /// <summary>
-        /// Contient les cases utilisés pour la génération
-        /// </summary>
-        [field: SerializeField]
-        public TileLibrarySO _tileLibrary { get; private set; }
+        public GenerationSettingsSO[] _generationettings { get; private set; }
 
         /// <summary>
         /// Le PlayerController
@@ -63,41 +57,37 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         [ContextMenu("Generate")]
         public void Generate()
         {
-            BiomeTilePaletteSO biomePalette = _generationSettings.Biomes[Random.Range(0, _generationSettings.Biomes.Length)];
-            GenerationAlgorithmSettingsSO[] algos = _generationSettings.AlgorithmsPerBiome[biomePalette];
-            GenerationAlgorithmSettingsSO selectedAlg = algos[Random.Range(0, algos.Length)];
-
-            Generate(_generationSettings, _tileLibrary, selectedAlg, biomePalette);
+            GenerationSettingsSO gs = _generationettings[Random.Range(0, _generationettings.Length)];
+            Generate(gs);
         }
 
         /// <summary>
         /// Génère une nouvelle carte
         /// </summary>
         /// <param name="gs">Paramètres de génération</param>
-        /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="alg">Algorithme de génération sélectionné</param>
-        /// <param name="palette">Contient les sprites utilisés pour l'affichage des cases</param>
-        public void Generate(GenerationSettingsSO gs, TileLibrarySO tl, GenerationAlgorithmSettingsSO alg, BiomeTilePaletteSO palette)
+        public void Generate(GenerationSettingsSO gs)
         {
             int2 gridSize = new(Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y),
                                 Random.Range(gs.MinMaxGridSize.x, gs.MinMaxGridSize.y));
 
             _grid = new Grid(gridSize);
+            GenerationAlgorithmSettingsSO selectedAlg = gs.Algorithms.Sample();
 
             // Génère l'environnement
 
-            GenerationAlgUtils.GenerateEnvironmnent(tl, alg, _grid);
+            GenerationAlgUtils.GenerateEnvironmnent(gs.TileLibrary, selectedAlg, _grid);
 
             // Génère les Features
 
-            GenerationAlgUtils.GenerateFeatures(gs, tl, _grid);
+            GenerationAlgUtils.GenerateFeatures(gs.TileLibrary, selectedAlg, _grid);
 
             // Place le joueur sur la carte
 
             _playerController.SetGrid(_grid);
             _playerController.SpawnPlayer(_grid);
 
-            OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, palette));
+            OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, gs.SpriteLibrary));
         }
 
         #endregion

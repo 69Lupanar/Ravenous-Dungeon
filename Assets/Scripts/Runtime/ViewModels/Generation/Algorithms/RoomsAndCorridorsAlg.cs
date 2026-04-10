@@ -37,13 +37,13 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
             int nbAttemps = 0;
             int nbRoomsCreated = 0;
 
-            TileEntitySO[] environmentLayer = new TileEntitySO[grid.GridSize.x * grid.GridSize.y];
+            EnvironmentTileSO[] environmentLayer = new EnvironmentTileSO[grid.GridSize.x * grid.GridSize.y];
             _rooms.Clear();
             _corridors.Clear();
 
             // Remplit la carte de murs pour pouvoir en creuser les salles
 
-            GenerationAlgUtils.FillMap(environmentLayer, grid.GridSize, tileLibrary.WallTile);
+            GenerationAlgUtils.FillMap(environmentLayer, grid.GridSize, tileLibrary.WallTiles);
 
             // Tant qu'on n'a pas atteint nbMaxRooms, on tente de générer des salles
 

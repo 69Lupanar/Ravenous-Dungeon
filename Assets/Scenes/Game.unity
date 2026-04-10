@@ -219,7 +219,6 @@ MonoBehaviour:
   <_playerController>k__BackingField: {fileID: 230714013}
   <_environmentTilemap>k__BackingField: {fileID: 313771497}
   <_playerTilemap>k__BackingField: {fileID: 730427778}
-  <_spriteLibrary>k__BackingField: {fileID: 11400000, guid: b71f19eeb538f1f4699ab1274eeaab06, type: 2}
 --- !u!1 &230714011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,7 +1694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78072c168660cf141b486fd9b158cd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets.Scripts.Runtime.ViewModels::Assets.Scripts.Runtime.ViewModels.Generation.MapGenerator
-  <_generationSettings>k__BackingField: {fileID: 11400000, guid: 50121183ccf8c3a44b49eac6f7623d56, type: 2}
+  <_generationettings>k__BackingField:
+  - {fileID: 11400000, guid: 50121183ccf8c3a44b49eac6f7623d56, type: 2}
   <_tileLibrary>k__BackingField: {fileID: 11400000, guid: 453c5bd93caef574781e7bafe9db93c2, type: 2}
   <_playerController>k__BackingField: {fileID: 230714013}
 --- !u!4 &1666578140

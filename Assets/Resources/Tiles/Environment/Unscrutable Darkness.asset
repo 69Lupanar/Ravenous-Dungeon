@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f78d9eaf1a661a489b6a20a4fbdb31b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d4cd7db389f9bc46921b9733c996840, type: 3}
   m_Name: Unscrutable Darkness
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Wall
   <Description>k__BackingField: The foreboding darkness of the Dungeon. Many eyes
     gaze at your body with lust, waiting for your next mistake to drag you into unknown
     places...
+  <LayerMask>k__BackingField: 0
+  <SeeThrough>k__BackingField: 0

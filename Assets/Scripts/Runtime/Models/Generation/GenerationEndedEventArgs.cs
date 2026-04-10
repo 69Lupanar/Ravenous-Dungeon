@@ -19,7 +19,7 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// <summary>
         /// Contient les sprites utilisés pour l'affichage des cases
         /// </summary>
-        public BiomeTilePaletteSO BiomePalette { get; }
+        public SpriteLibrarySO SpriteLibrary { get; }
 
         #endregion
 
@@ -29,11 +29,11 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// Constructeur
         /// </summary>
         /// <param name="grid">La grille des cases créées</param>
-        /// <param name="biomePalette">Contient les sprites utilisés pour l'affichage des cases</param>
-        public GenerationEndedEventArgs(Grid grid, BiomeTilePaletteSO biomePalette)
+        /// <param name="spriteLibrary">Contient les sprites utilisés pour l'affichage des cases</param>
+        public GenerationEndedEventArgs(Grid grid, SpriteLibrarySO spriteLibrary)
         {
             Grid = grid;
-            BiomePalette = biomePalette;
+            SpriteLibrary = spriteLibrary;
         }
 
         #endregion
