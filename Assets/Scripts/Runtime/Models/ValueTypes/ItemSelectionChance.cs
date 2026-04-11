@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
+namespace Assets.Scripts.Runtime.Models.ValueTypes
 {
     /// <summary>
     /// Associe à un sprite une chance d'être sélectionné

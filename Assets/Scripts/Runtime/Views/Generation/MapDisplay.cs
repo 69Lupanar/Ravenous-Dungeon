@@ -2,6 +2,7 @@ using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
 using Assets.Scripts.Runtime.ViewModels.Generation;
 using Assets.Scripts.Runtime.ViewModels.Player;
@@ -21,26 +22,32 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <summary>
         /// Le générateur de carte
         /// </summary>
-        [field: SerializeField]
-        public MapGenerator _mapGenerator { get; private set; }
+        [SerializeField]
+        private MapGenerator _mapGenerator;
 
         /// <summary>
         /// Le PlayerController
         /// </summary>
-        [field: SerializeField]
-        public PlayerController _playerController { get; private set; }
+        [SerializeField]
+        private PlayerController _playerController;
 
         /// <summary>
         /// La couche de la tilemap contenant les cases de l'environnement
         /// </summary>
-        [field: SerializeField]
-        public Tilemap _environmentTilemap { get; private set; }
+        [SerializeField]
+        private Tilemap _environmentTilemap;
+
+        /// <summary>
+        /// La couche de la tilemap contenant les cases interagissables
+        /// </summary>
+        [SerializeField]
+        private Tilemap _featuresTilemap;
 
         /// <summary>
         /// La couche de la tilemap contenant le joueur
         /// </summary>
-        [field: SerializeField]
-        public Tilemap _playerTilemap { get; private set; }
+        [SerializeField]
+        private Tilemap _playerTilemap;
 
         #endregion
 
@@ -86,6 +93,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
             Clear();
             _curPalette = e.SpriteLibrary;
             DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.SpriteLibrary);
+            DisplayFeatures(e.Grid.GridSize, e.Grid.FeaturesLayer, e.SpriteLibrary);
             DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, e.SpriteLibrary);
         }
 
@@ -104,6 +112,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void Clear()
         {
             _environmentTilemap.ClearAllTiles();
+            _featuresTilemap.ClearAllTiles();
             _playerTilemap.ClearAllTiles();
         }
 
@@ -123,6 +132,29 @@ namespace Assets.Scripts.Runtime.Views.Generation
                 Tile selectedTile = possibleTiles.Sample();
 
                 _environmentTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+            }
+        }
+
+        /// <summary>
+        /// Affiche les cases spéciales
+        /// </summary>
+        /// <param name="gridSize">Les dimensions de la grille</param>
+        /// <param name="layer">La couche à afficher</param>
+        /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
+        private void DisplayFeatures(int2 gridSize, FeatureTileSO[] layer, SpriteLibrarySO sl)
+        {
+            for (int i = 0; i < layer.Length; ++i)
+            {
+                int2 xy = new(i % gridSize.x, i / gridSize.x);
+                TileEntitySO tile = layer[i];
+
+                if (tile != null)
+                {
+                    ItemSelectionChance<Tile>[] possibleTiles = sl.Tiles[tile];
+                    Tile selectedTile = possibleTiles.Sample();
+
+                    _featuresTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                }
             }
         }
 

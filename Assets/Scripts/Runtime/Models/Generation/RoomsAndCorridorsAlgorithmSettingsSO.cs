@@ -13,13 +13,13 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// L'intervalle possible du nombre max de salles à instancier
         /// </summary>
         [field: SerializeField]
-        public int2 MinMaxNbRooms { get; private set; }
+        public int2 NbRoomsInterval { get; private set; }
 
         /// <summary>
         /// L'intervalle possible de la taille des salles à instancier
         /// </summary>
         [field: SerializeField]
-        public int2 MinMaxRoomSize { get; private set; }
+        public int2 RoomSizeInterval { get; private set; }
 
         /// <summary>
         /// %age de chance possible de placer une porte lorsque

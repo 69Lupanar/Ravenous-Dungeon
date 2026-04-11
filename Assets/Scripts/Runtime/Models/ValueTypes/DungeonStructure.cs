@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Assets.Scripts.Runtime.Models.Features
+namespace Assets.Scripts.Runtime.Models.ValueTypes
 {
     /// <summary>
     /// Représente une structure créée lors de la génération

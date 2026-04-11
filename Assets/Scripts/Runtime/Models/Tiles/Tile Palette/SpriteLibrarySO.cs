@@ -1,3 +1,4 @@
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 

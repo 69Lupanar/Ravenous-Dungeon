@@ -1,5 +1,5 @@
-using Assets.Scripts.Runtime.Models.Features;
 using Assets.Scripts.Runtime.Models.Tiles;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -23,6 +23,11 @@ namespace Assets.Scripts.Runtime.Models.Map
         public EnvironmentTileSO[] EnvironmentLayer { get; set; }
 
         /// <summary>
+        /// Couche contenant les cases interagissables
+        /// </summary>
+        public FeatureTileSO[] FeaturesLayer { get; set; }
+
+        /// <summary>
         /// Liste des salles du niveau
         /// </summary>
         public DungeonStructure[] Rooms { get; set; }
@@ -42,12 +47,23 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <param name="gridSize">Dimensions de la grille</param>
         public Grid(int2 gridSize)
         {
+            int length = gridSize.x * gridSize.y;
             GridSize = gridSize;
+            EnvironmentLayer = new EnvironmentTileSO[length];
+            FeaturesLayer = new FeatureTileSO[length];
         }
 
         #endregion
 
         #region Méthodes publiques
+
+        /// <summary>
+        /// Convertit les coordonnées en index
+        /// </summary>
+        public int ToIndex(int2 coords)
+        {
+            return ToIndex(coords.x, coords.y);
+        }
 
         /// <summary>
         /// Convertit les coordonnées en index

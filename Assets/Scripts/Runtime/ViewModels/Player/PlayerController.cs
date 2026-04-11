@@ -1,6 +1,7 @@
 using System;
 using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.Tiles;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Map.Grid;

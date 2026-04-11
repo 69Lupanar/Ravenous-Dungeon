@@ -17,6 +17,16 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
         #endregion
 
+        #region Variables Unity
+
+        /// <summary>
+        /// true si le déplacement peut se faire dans 8 direction, false pour 4 seulement
+        /// </summary>
+        [SerializeField]
+        private bool _allow8Way = true;
+
+        #endregion
+
         #region Variables d'instance
 
         /// <summary>
@@ -35,13 +45,17 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
             _input.Player.Enable();
 
             _input.Player.MoveUp.started += ctx => MoveDirection = new int2(0, 1);
-            _input.Player.MoveUpRight.started += ctx => MoveDirection = new int2(1, 1);
             _input.Player.MoveRight.started += ctx => MoveDirection = new int2(1, 0);
-            _input.Player.MoveBottomRight.started += ctx => MoveDirection = new int2(1, -1);
             _input.Player.MoveBottom.started += ctx => MoveDirection = new int2(0, -1);
-            _input.Player.MoveBottomLeft.started += ctx => MoveDirection = new int2(-1, -1);
             _input.Player.MoveLeft.started += ctx => MoveDirection = new int2(-1, 0);
-            _input.Player.MoveUpLeft.started += ctx => MoveDirection = new int2(-1, 1);
+
+            if (_allow8Way)
+            {
+                _input.Player.MoveUpRight.started += ctx => MoveDirection = new int2(1, 1);
+                _input.Player.MoveBottomRight.started += ctx => MoveDirection = new int2(1, -1);
+                _input.Player.MoveBottomLeft.started += ctx => MoveDirection = new int2(-1, -1);
+                _input.Player.MoveUpLeft.started += ctx => MoveDirection = new int2(-1, 1);
+            }
         }
 
         /// <summary>

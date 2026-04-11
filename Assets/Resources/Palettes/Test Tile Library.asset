@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547c11250a6857e4990bbfd1509098c9, type: 3}
   m_Name: Test Tile Library
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.TilePalette.TileLibrarySO
+  <GroundTile>k__BackingField: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
+  <UnknownTile>k__BackingField: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}
+  <RiverTiles>k__BackingField:
+    _serializedList:
+    - Key: 1
+      Value: {fileID: 11400000, guid: 2693b23d3f0a5c7408c5459b71fcf60e, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: e2b7174c16a74d1409a5e5c5cfd5e4a1, type: 2}
   <WallTiles>k__BackingField:
   - <Value>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
     <Chance>k__BackingField: 0
-  <GroundTile>k__BackingField: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
-  <UnknownTile>k__BackingField: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}
   <DoorTiles>k__BackingField:
   - <Value>k__BackingField: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
     <Chance>k__BackingField: 0

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.ViewModels.Extensions
@@ -18,6 +18,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Extensions
         /// <returns>Un élément choisi au hasard</returns>
         public static T Sample<T>(this IEnumerable<ItemSelectionChance<T>> collection)
         {
+            if (collection.Count() == 0)
+            {
+                throw new System.Exception("Error : There is no element in the collection.");
+            }
+
             if (collection.Count() == 1)
             {
                 return collection.First().Value;
@@ -43,5 +48,43 @@ namespace Assets.Scripts.Runtime.ViewModels.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Evalue les chances de chaque élément de la collection
+        /// et obtient un élément au hasard
+        /// </summary>
+        /// <param name="collection">La liste d'éléments</param>
+        /// <param name="rand">Générateur d'aléatoire</param>
+        /// <returns>Un élément choisi au hasard</returns>
+        public static T Sample<T>(this IEnumerable<ItemSelectionChance<T>> collection, ref Random rand)
+        {
+            if (collection.Count() == 0)
+            {
+                throw new System.Exception("Error : There is no element in the collection.");
+            }
+
+            if (collection.Count() == 1)
+            {
+                return collection.First().Value;
+            }
+
+            float alea = rand.NextFloat(100f);
+            float2 curInterval = float2.zero;
+            T result = default;
+
+            foreach (ItemSelectionChance<T> item in collection)
+            {
+                curInterval.y += item.Chance;
+
+                if (curInterval.x < alea && alea < curInterval.y)
+                {
+                    result = item.Value;
+                    break;
+                }
+
+                curInterval.x += item.Chance;
+            }
+
+            return result;
+        }
     }
 }

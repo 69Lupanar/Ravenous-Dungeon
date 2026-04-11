@@ -1,3 +1,4 @@
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Models.Tiles
@@ -5,7 +6,7 @@ namespace Assets.Scripts.Runtime.Models.Tiles
     /// <summary>
     /// Données d'une case représentant un élément de l'environnement (mur, sol, liquide, etc.)
     /// </summary>
-    [CreateAssetMenu(fileName = "New Environment Tile", menuName = "Scriptable Objects/Tiles/Environment Tile SO")]
+    [CreateAssetMenu(fileName = "New Environment Tile", menuName = "Scriptable Objects/Tiles/Environment Tile")]
     public sealed class EnvironmentTileSO : TileEntitySO
     {
         [field: Space(10)]

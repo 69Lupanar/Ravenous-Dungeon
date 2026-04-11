@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Assets.Scripts.Runtime.Models.Features;
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Map;
-using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 {
@@ -30,20 +28,20 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         /// <param name="settings">Paramètres de génération</param>
         /// <param name="tileLibrary">Contient les cases utilisés pour la génération</param>
         /// <param name="grid">La grille</param>
+        /// <param name="rand">Générateur d'aléatoire</param>
         /// <returns>La grille des cases créées</returns>
-        public static void GenerateEnvironmnent(RoomsAndCorridorsAlgorithmSettingsSO settings, TileLibrarySO tileLibrary, Grid grid)
+        public static void GenerateEnvironmnent(RoomsAndCorridorsAlgorithmSettingsSO settings, TileLibrarySO tileLibrary, Grid grid, ref Unity.Mathematics.Random rand)
         {
-            int nbMaxRooms = Random.Range(settings.MinMaxNbRooms.x, settings.MinMaxNbRooms.y);
+            int nbMaxRooms = rand.NextInt(settings.NbRoomsInterval.x, settings.NbRoomsInterval.y);
             int nbAttemps = 0;
             int nbRoomsCreated = 0;
 
-            EnvironmentTileSO[] environmentLayer = new EnvironmentTileSO[grid.GridSize.x * grid.GridSize.y];
             _rooms.Clear();
             _corridors.Clear();
 
             // Remplit la carte de murs pour pouvoir en creuser les salles
 
-            GenerationAlgUtils.FillMap(environmentLayer, grid.GridSize, tileLibrary.WallTiles);
+            GenerationAlgUtils.FillMap(grid.EnvironmentLayer, grid.GridSize, tileLibrary.WallTiles);
 
             // Tant qu'on n'a pas atteint nbMaxRooms, on tente de générer des salles
 
@@ -51,8 +49,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
             {
                 // On crée une nouvelle DungeonStructure avec une position et dimensions aléatoires
 
-                int2 newDimensions = new(Random.Range(settings.MinMaxRoomSize.x, settings.MinMaxRoomSize.y), Random.Range(settings.MinMaxRoomSize.x, settings.MinMaxRoomSize.y));
-                int2 newPos = new(Random.Range(1, grid.GridSize.x - newDimensions.x), Random.Range(1, grid.GridSize.y - newDimensions.y));
+                int2 newDimensions = new(rand.NextInt(settings.RoomSizeInterval.x, settings.RoomSizeInterval.y), rand.NextInt(settings.RoomSizeInterval.x, settings.RoomSizeInterval.y));
+                int2 newPos = new(rand.NextInt(1, grid.GridSize.x - newDimensions.x), rand.NextInt(1, grid.GridSize.y - newDimensions.y));
                 DungeonStructure newRoom = new(newPos, newDimensions);
 
                 // Parmi les salles déjà créées, s'il y en a déjà une qui se superpose, on arrête la tentative
@@ -78,7 +76,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 
                 _rooms.Add(newRoom);
 
-                GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, newPos, newDimensions, tileLibrary, environmentLayer);
+                GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, newPos, newDimensions, tileLibrary, grid.EnvironmentLayer);
                 ++nbAttemps;
             }
 
@@ -91,20 +89,19 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
                     DungeonStructure curRoom = _rooms[i];
                     DungeonStructure previousRoom = _rooms[i - 1];
 
-                    if (Random.Range(0, 2) == 0)
+                    if (rand.NextBool())
                     {
-                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, environmentLayer);
-                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, environmentLayer);
+                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.EnvironmentLayer);
+                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.EnvironmentLayer);
                     }
                     else
                     {
-                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, environmentLayer);
-                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, environmentLayer);
+                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.EnvironmentLayer);
+                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.EnvironmentLayer);
                     }
                 }
             }
 
-            grid.EnvironmentLayer = environmentLayer;
             grid.Rooms = _rooms.ToArray();
             grid.Corridors = _corridors.ToArray();
         }

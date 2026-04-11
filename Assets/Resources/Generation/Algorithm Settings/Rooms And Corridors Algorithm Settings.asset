@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f428c105e066a948af026da0aaa34bf, type: 3}
   m_Name: Rooms And Corridors Algorithm Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Generation.RoomsAndCorridorsAlgorithmSettingsSO
-  <MinMaxNbRooms>k__BackingField:
+  <NbRoomsInterval>k__BackingField:
     x: 10
     y: 30
-  <MinMaxRoomSize>k__BackingField:
+  <RoomSizeInterval>k__BackingField:
     x: 5
     y: 15
   <DoorSpawnRate>k__BackingField: 50
