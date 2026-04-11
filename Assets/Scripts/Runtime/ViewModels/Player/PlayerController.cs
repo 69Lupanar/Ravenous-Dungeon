@@ -21,6 +21,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// </summary>
         public EventHandler<PlayerMovedEventArgs> OnPlayerMoved;
 
+        /// <summary>
+        /// Appelé quand le personnage est placé sur la carte
+        /// </summary>
+        public EventHandler<PlayerSpawnedEventArgs> OnPlayerSpawned;
+
         #endregion
 
         #region Propriétés
@@ -110,17 +115,20 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// à son layerMask de cases naviguables
         /// </summary>
         /// <param name="grid">Grille contenant les cases</param>
-        public void SpawnPlayer(Grid grid)
+        /// <param name="rand">Générateur d'aléatoire</param>
+        public void SpawnPlayer(Grid grid, ref Unity.Mathematics.Random rand)
         {
             int index;
 
             do
             {
-                index = UnityEngine.Random.Range(0, grid.EnvironmentLayer.Length);
+                index = rand.NextInt(grid.EnvironmentLayer.Length);
             }
             while (!_playerSpawnMask.HasFlag(grid.EnvironmentLayer[index].LayerMask));
 
             PlayerPos = grid.ToV3Int(index);
+
+            OnPlayerSpawned?.Invoke(this, new PlayerSpawnedEventArgs(PlayerPos));
         }
 
         /// <summary>

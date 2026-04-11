@@ -71,6 +71,25 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
             _rand = new Unity.Mathematics.Random(_seed == 0 ? (uint)UnityEngine.Random.Range(1, uint.MaxValue) : _seed);
         }
 
+        /// <summary>
+        /// init
+        /// </summary>
+        private void Start()
+        {
+            Generate();
+        }
+
+        /// <summary>
+        /// màj à chaque frame
+        /// </summary>
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Generate();
+            }
+        }
+
 #endif
 
         #endregion
@@ -114,7 +133,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
             // Place le joueur sur la carte
 
             _playerController.SetGrid(_grid);
-            _playerController.SpawnPlayer(_grid);
+            _playerController.SpawnPlayer(_grid, ref _rand);
 
             OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, gs.SpriteLibrary));
         }
