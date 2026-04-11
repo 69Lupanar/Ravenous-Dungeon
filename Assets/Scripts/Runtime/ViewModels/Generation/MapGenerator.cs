@@ -130,12 +130,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             GenerationAlgUtils.GenerateFeatures(gs.TileLibrary, selectedAlg, _grid, ref _rand);
 
+            OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, gs.SpriteLibrary));
+
             // Place le joueur sur la carte
 
             _playerController.SetGrid(_grid);
             _playerController.SpawnPlayer(_grid, ref _rand);
-
-            OnGenerationEnded?.Invoke(this, new GenerationEndedEventArgs(_grid, gs.SpriteLibrary));
         }
 
         #endregion

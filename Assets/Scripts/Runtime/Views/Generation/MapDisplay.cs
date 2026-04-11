@@ -68,6 +68,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void Awake()
         {
             _mapGenerator.OnGenerationEnded += OnGenerationEnded;
+            _playerController.OnPlayerSpawned += OnPlayerSpawned;
             _playerController.OnPlayerMoved += OnPlayerMoved;
         }
 
@@ -77,6 +78,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void OnDestroy()
         {
             _mapGenerator.OnGenerationEnded -= OnGenerationEnded;
+            _playerController.OnPlayerSpawned -= OnPlayerSpawned;
             _playerController.OnPlayerMoved -= OnPlayerMoved;
         }
 
@@ -94,7 +96,11 @@ namespace Assets.Scripts.Runtime.Views.Generation
             _curPalette = e.SpriteLibrary;
             DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.SpriteLibrary);
             DisplayFeatures(e.Grid.GridSize, e.Grid.FeaturesLayer, e.SpriteLibrary);
-            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, e.SpriteLibrary);
+        }
+
+        private void OnPlayerSpawned(object sender, PlayerSpawnedEventArgs e)
+        {
+            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, _curPalette);
         }
 
         /// <summary>

@@ -38,8 +38,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// </summary>
         private void Start()
         {
-            _playerController.OnPlayerMoved += OnPlayerMoved;
             _playerController.OnPlayerSpawned += OnPlayerSpawned;
+            _playerController.OnPlayerMoved += OnPlayerMoved;
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// </summary>
         private void OnDestroy()
         {
-            _playerController.OnPlayerMoved -= OnPlayerMoved;
             _playerController.OnPlayerSpawned -= OnPlayerSpawned;
+            _playerController.OnPlayerMoved -= OnPlayerMoved;
         }
 
         #endregion
@@ -56,19 +56,19 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         #region Méthodes privées
 
         /// <summary>
-        /// Appelé quand le joueur déplace le personnage
+        /// Appelé quand le personnage est placé sur la carte
         /// </summary>
-        private void OnPlayerMoved(object sender, PlayerMovedEventArgs e)
+        private void OnPlayerSpawned(object _, PlayerSpawnedEventArgs e)
         {
-            SetCameraPosition(e.NewPos);
+            SetCameraPosition(e.PlayerPosition);
         }
 
         /// <summary>
-        /// Appelé quand le personnage est placé sur la carte
+        /// Appelé quand le joueur déplace le personnage
         /// </summary>
-        private void OnPlayerSpawned(object sender, PlayerSpawnedEventArgs e)
+        private void OnPlayerMoved(object _, PlayerMovedEventArgs e)
         {
-            SetCameraPosition(e.PlayerPosition);
+            SetCameraPosition(e.NewPos);
         }
 
         /// <summary>
