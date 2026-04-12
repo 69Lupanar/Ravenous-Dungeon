@@ -244,26 +244,6 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         }
 
         /// <summary>
-        /// Génère des rivières à travers le niveau
-        /// </summary>
-        /// <param name="tl">Contient les cases utilisés pour la génération</param>
-        /// <param name="rgs">Paramètres de génération des rivières et lacs</param>
-        /// <param name="grid">La grille</param>
-        /// <param name="rand">Générateur d'aléatoire</param>
-        private void GenerateRivers(TileLibrarySO tl, RiverGenerationSettingsSO rgs, Grid grid, ref Random rand)
-        {
-            int nbRiversToGenerate = rand.NextFloat(100f) < rgs.RiverSpawnRate ? rand.NextInt(rgs.NbRiversInterval.x, rgs.NbRiversInterval.y) : 0;
-
-            for (int i = 0; i < nbRiversToGenerate; ++i)
-            {
-                RiverType type = rgs.RiverTypes.Sample(ref rand);
-                IEnvironmentActor liquidTile = tl.RiverTiles[type];
-                int width = rand.NextInt(rgs.RiverWidthInterval.x, rgs.RiverWidthInterval.y);
-                System.Span<int2> directions = stackalloc int2[4] { new(1, 0), new(-1, 0), new(0, 1), new(0, -1) };
-            }
-        }
-
-        /// <summary>
         /// Indique si une porte peut être placée à l'index donné
         /// </summary>
         /// <param name="coords">Coordonnées de la porte</param>
@@ -281,6 +261,26 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             return (right.LayerMask == EnvironmentTileLayerMask.Wall && left.LayerMask == EnvironmentTileLayerMask.Wall) ||
                     (up.LayerMask == EnvironmentTileLayerMask.Wall && down.LayerMask == EnvironmentTileLayerMask.Wall);
+        }
+
+        /// <summary>
+        /// Génère des rivières à travers le niveau
+        /// </summary>
+        /// <param name="tl">Contient les cases utilisés pour la génération</param>
+        /// <param name="rgs">Paramètres de génération des rivières et lacs</param>
+        /// <param name="grid">La grille</param>
+        /// <param name="rand">Générateur d'aléatoire</param>
+        private void GenerateRivers(TileLibrarySO tl, RiverGenerationSettingsSO rgs, Grid grid, ref Random rand)
+        {
+            int nbRiversToGenerate = rand.NextFloat(100f) < rgs.RiverSpawnRate ? rand.NextInt(rgs.NbRiversInterval.x, rgs.NbRiversInterval.y) : 0;
+
+            for (int i = 0; i < nbRiversToGenerate; ++i)
+            {
+                RiverType type = rgs.RiverTypes.Sample(ref rand);
+                IEnvironmentActor liquidTile = tl.RiverTiles[type];
+                int width = rand.NextInt(rgs.RiverWidthInterval.x, rgs.RiverWidthInterval.y);
+                System.Span<int2> directions = stackalloc int2[4] { new(1, 0), new(-1, 0), new(0, 1), new(0, -1) };
+            }
         }
 
         #endregion

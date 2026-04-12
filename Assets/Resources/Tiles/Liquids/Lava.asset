@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.EnvironmentTileSO
   <Attributes>k__BackingField: -1
   <Description>k__BackingField: A steady stream of hot lava.
-  <LayerMask>k__BackingField: 24
+  <LayerMask>k__BackingField: 8
   <CurrentStrength>k__BackingField: 2

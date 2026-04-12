@@ -15,6 +15,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// </summary>
         internal int2 MoveDirection { get; set; }
 
+        /// <summary>
+        /// Direction de mouvement
+        /// </summary>
+        internal bool RequestedMoveThisFrame => math.any(MoveDirection != int2.zero);
+
         #endregion
 
         #region Variables Unity
@@ -56,6 +61,14 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
                 _input.Player.MoveBottomLeft.started += ctx => MoveDirection = new int2(-1, -1);
                 _input.Player.MoveUpLeft.started += ctx => MoveDirection = new int2(-1, 1);
             }
+        }
+
+        /// <summary>
+        /// màj après chaque frame
+        /// </summary>
+        private void LateUpdate()
+        {
+            MoveDirection = int2.zero;
         }
 
         /// <summary>

@@ -2,7 +2,6 @@ using System;
 using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.Player;
 using Assets.Scripts.Runtime.Models.ValueTypes;
-using Unity.Mathematics;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Map.Grid;
 
@@ -75,25 +74,10 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         /// </summary>
         private void Update()
         {
-            if (_grid != null)
+            if (_input.RequestedMoveThisFrame && _grid != null)
             {
-                Vector3Int newPos = PlayerPos + new Vector3Int(_input.MoveDirection.x, _input.MoveDirection.y, 0);
-
-                if (!_grid.OutOfBounds(newPos))
-                {
-                    IEnvironmentActor destTile = _grid.StaticEnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
-
-                    if (TileIsWalkable(destTile.LayerMask))
-                    {
-                        Vector3Int previousPos = PlayerPos;
-                        PlayerPos = newPos;
-
-                        OnPlayerMoved?.Invoke(this, new PlayerMovedEventArgs(previousPos, newPos));
-                    }
-                }
+                MovePlayer();
             }
-
-            _input.MoveDirection = int2.zero;
         }
 
         #endregion
@@ -122,9 +106,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
             do
             {
+                // On cherche un emplacement libre et qui n'ait pas été remplacé par un liquide
+                // (càd que le Data de l'acteur n'est pas null)
+
                 index = rand.NextInt(grid.StaticEnvironmentLayer.Length);
             }
-            while (!_playerSpawnMask.HasFlag(grid.StaticEnvironmentLayer[index].LayerMask));
+            while (grid.StaticEnvironmentLayer[index].Data == null ^ !_playerSpawnMask.HasFlag(grid.StaticEnvironmentLayer[index].LayerMask));
 
             PlayerPos = grid.ToV3Int(index);
 
@@ -138,6 +125,30 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
         public bool TileIsWalkable(EnvironmentTileLayerMask layerMask)
         {
             return _playerWalkableMask.HasFlag(layerMask);
+        }
+
+        /// <summary>
+        /// Déplace le joueur sur la grille
+        /// </summary>
+        private void MovePlayer()
+        {
+            Vector3Int dest = PlayerPos + new Vector3Int(_input.MoveDirection.x, _input.MoveDirection.y, 0);
+
+            if (!_grid.OutOfBounds(dest))
+            {
+                // On ne se déplace que s'il y a une surface naviguable à la destination
+                // (càd un environnement statique, OU un liquide) 
+                StaticEnvironmentActor destTile1 = _grid.StaticEnvironmentLayer[_grid.ToIndex(dest.x, dest.y)];
+                LiquidActor destTile2 = _grid.LiquidsLayer[_grid.ToIndex(dest.x, dest.y)];
+
+                if (destTile1.Data != null && TileIsWalkable(destTile1.LayerMask) ^ destTile2.Data != null && TileIsWalkable(destTile2.LayerMask))
+                {
+                    Vector3Int previousPos = PlayerPos;
+                    PlayerPos = dest;
+
+                    OnPlayerMoved?.Invoke(this, new PlayerMovedEventArgs(previousPos, dest));
+                }
+            }
         }
 
         #endregion
