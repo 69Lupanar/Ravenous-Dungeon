@@ -1,4 +1,4 @@
-using Assets.Scripts.Runtime.Models.Tiles;
+using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,12 +20,22 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Couche contenant les cases de l'environnment
         /// </summary>
-        public EnvironmentTileSO[] EnvironmentLayer { get; set; }
+        public StaticEnvironmentActor[] StaticEnvironmentLayer { get; set; }
 
         /// <summary>
-        /// Couche contenant les cases interagissables
+        /// Couche contenant les cases des liquides
         /// </summary>
-        public FeatureTileSO[] FeaturesLayer { get; set; }
+        public LiquidActor[] LiquidsLayer { get; set; }
+
+        /// <summary>
+        /// Couche contenant les cases des portes
+        /// </summary>
+        public DoorActor[] DoorsLayer { get; set; }
+
+        /// <summary>
+        /// Couche contenant les cases interactives
+        /// </summary>
+        public InteractableActor[] InteractablesLayer { get; set; }
 
         /// <summary>
         /// Liste des salles du niveau
@@ -49,8 +59,10 @@ namespace Assets.Scripts.Runtime.Models.Map
         {
             int length = gridSize.x * gridSize.y;
             GridSize = gridSize;
-            EnvironmentLayer = new EnvironmentTileSO[length];
-            FeaturesLayer = new FeatureTileSO[length];
+            StaticEnvironmentLayer = new StaticEnvironmentActor[length];
+            LiquidsLayer = new LiquidActor[length];
+            DoorsLayer = new DoorActor[length];
+            InteractablesLayer = new InteractableActor[length];
         }
 
         #endregion

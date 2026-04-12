@@ -21,6 +21,27 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// </summary>
         [field: SerializedDictionary("Tile", "Possible Sprites")]
         [field: SerializeField]
-        public SerializedDictionary<TileEntitySO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> Tiles { get; private set; }
+        public SerializedDictionary<StaticEnvironmentTileSO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> StaticEnvironmentTiles { get; private set; }
+
+        /// <summary>
+        /// Les sprites représentant leurs cases associées
+        /// </summary>
+        [field: SerializedDictionary("Tile", "Possible Sprites")]
+        [field: SerializeField]
+        public SerializedDictionary<LiquidTileSO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> LiquidTiles { get; private set; }
+
+        /// <summary>
+        /// Les sprites représentant leurs cases associées
+        /// </summary>
+        [field: SerializedDictionary("Tile", "Possible Sprites")]
+        [field: SerializeField]
+        public SerializedDictionary<DoorTileSO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> DoorTiles { get; private set; }
+
+        /// <summary>
+        /// Les sprites représentant leurs cases associées
+        /// </summary>
+        [field: SerializedDictionary("Tile", "Possible Sprites")]
+        [field: SerializeField]
+        public SerializedDictionary<InteractableTileSO, ItemSelectionChance<UnityEngine.Tilemaps.Tile>[]> IneractableTiles { get; private set; }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4cd7db389f9bc46921b9733c996840, type: 3}
   m_Name: Stone Wall
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Wall
+  <Attributes>k__BackingField: 2
   <Description>k__BackingField: A sturdy stone wall, impenetrable by you and most
     monsters.
   <LayerMask>k__BackingField: 2
-  <SeeThrough>k__BackingField: 0

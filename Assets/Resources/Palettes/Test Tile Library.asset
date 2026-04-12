@@ -25,4 +25,7 @@ MonoBehaviour:
     <Chance>k__BackingField: 0
   <DoorTiles>k__BackingField:
   - <Value>k__BackingField: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
-    <Chance>k__BackingField: 0
+    <Chance>k__BackingField: 50
+  - <Value>k__BackingField: {fileID: 11400000, guid: ce3761af4c85ba44d88d01f53be1c425, type: 2}
+    <Chance>k__BackingField: 50
+  <InteractableTiles>k__BackingField: []

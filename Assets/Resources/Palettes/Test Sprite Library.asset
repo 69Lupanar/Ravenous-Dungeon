@@ -13,24 +13,18 @@ MonoBehaviour:
   m_Name: Test Sprite Library
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.TilePalette.SpriteLibrarySO
   <PlayerSprite>k__BackingField: {fileID: 11400000, guid: 54826f6be65306f41a4d5fc29c7b6c66, type: 2}
-  <Tiles>k__BackingField:
+  <StaticEnvironmentTiles>k__BackingField:
     _serializedList:
     - Key: {fileID: 11400000, guid: 96c302e0cdbfe9548b74bfa48fa3979a, type: 2}
       Value:
       - <Value>k__BackingField: {fileID: 11400000, guid: 39607a9d349df2b4b884434eb61e93e2, type: 2}
         <Chance>k__BackingField: 0
-    - Key: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
-      Value:
-      - <Value>k__BackingField: {fileID: 11400000, guid: ddf52e70f83253647a72d4d7e37587a1, type: 2}
-        <Chance>k__BackingField: 0
-    - Key: {fileID: 11400000, guid: 583e22223d95fca4dab220d66164f78c, type: 2}
-      Value:
-      - <Value>k__BackingField: {fileID: 11400000, guid: 2651a7c611c00474fab66458c48a4b7e, type: 2}
-        <Chance>k__BackingField: 0
     - Key: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
       Value:
       - <Value>k__BackingField: {fileID: 11400000, guid: a4ec64e1fad7ea848be2464f9a1bff68, type: 2}
         <Chance>k__BackingField: 0
+  <LiquidTiles>k__BackingField:
+    _serializedList:
     - Key: {fileID: 11400000, guid: 2693b23d3f0a5c7408c5459b71fcf60e, type: 2}
       Value:
       - <Value>k__BackingField: {fileID: 11400000, guid: 2f99df66d3484ef48848100292132800, type: 2}
@@ -39,3 +33,15 @@ MonoBehaviour:
       Value:
       - <Value>k__BackingField: {fileID: 11400000, guid: e2aa9aa53f027584a8acdbf303561808, type: 2}
         <Chance>k__BackingField: 0
+  <DoorTiles>k__BackingField:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: e3592500d9061374e8c1d928e34fadbd, type: 2}
+      Value:
+      - <Value>k__BackingField: {fileID: 11400000, guid: ddf52e70f83253647a72d4d7e37587a1, type: 2}
+        <Chance>k__BackingField: 0
+    - Key: {fileID: 11400000, guid: ce3761af4c85ba44d88d01f53be1c425, type: 2}
+      Value:
+      - <Value>k__BackingField: {fileID: 11400000, guid: 8aca4d26c339c9247a2db7e81c592682, type: 2}
+        <Chance>k__BackingField: 0
+  <IneractableTiles>k__BackingField:
+    _serializedList: []

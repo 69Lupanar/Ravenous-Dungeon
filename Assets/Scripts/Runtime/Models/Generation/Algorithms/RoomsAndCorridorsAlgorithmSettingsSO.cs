@@ -1,7 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Assets.Scripts.Runtime.Models.Generation
+namespace Assets.Scripts.Runtime.Models.Generation.Algorithms
 {
     /// <summary>
     /// Paramètres de génération de la carte

@@ -249,7 +249,7 @@ MonoBehaviour:
   _mapGenerator: {fileID: 1666578139}
   _playerController: {fileID: 230714013}
   _environmentTilemap: {fileID: 313771497}
-  _featuresTilemap: {fileID: 315417036}
+  _interactablesTilemap: {fileID: 315417036}
   _playerTilemap: {fileID: 730427778}
 --- !u!1 &230714011
 GameObject:
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 315417036}
   - component: {fileID: 315417035}
   m_Layer: 0
-  m_Name: Features Tilemap
+  m_Name: Interactables Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBrain
   ShowDebugText: 0
-  ShowCameraFrustum: 1
+  ShowCameraFrustum: 0
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1

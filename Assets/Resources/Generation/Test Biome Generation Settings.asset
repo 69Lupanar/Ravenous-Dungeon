@@ -13,22 +13,13 @@ MonoBehaviour:
   m_Name: Test Biome Generation Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.Generation.GenerationSettings
   <SpriteLibrary>k__BackingField: {fileID: 11400000, guid: b71f19eeb538f1f4699ab1274eeaab06, type: 2}
-  <TileLibrary>k__BackingField: {fileID: 11400000, guid: 453c5bd93caef574781e7bafe9db93c2, type: 2}
   <GridSizeInterval>k__BackingField:
     x: 50
     y: 50
-  <NbRiversInterval>k__BackingField:
-    x: 1
-    y: 4
-  <RiverSpawnRate>k__BackingField: 20
-  <RiverWidthInterval>k__BackingField:
-    x: 1
-    y: 4
-  <RiverTypes>k__BackingField:
-  - <Value>k__BackingField: 1
-    <Chance>k__BackingField: 50
-  - <Value>k__BackingField: 2
-    <Chance>k__BackingField: 50
+  <TileLibrary>k__BackingField: {fileID: 11400000, guid: 453c5bd93caef574781e7bafe9db93c2, type: 2}
+  <RiverGenerationSettings>k__BackingField:
+  - <Value>k__BackingField: {fileID: 11400000, guid: ed0a44cff53ccf74c838df83b53e7a84, type: 2}
+    <Chance>k__BackingField: 0
   <Algorithms>k__BackingField:
   - <Value>k__BackingField: {fileID: 11400000, guid: 8cf095ee92352324db03773cb707abbc, type: 2}
     <Chance>k__BackingField: 50

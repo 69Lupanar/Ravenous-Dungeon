@@ -1,6 +1,6 @@
 using System;
+using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.Player;
-using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Mathematics;
 using UnityEngine;
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
                 if (!_grid.OutOfBounds(newPos))
                 {
-                    EnvironmentTileSO destTile = _grid.EnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
+                    IEnvironmentActor destTile = _grid.StaticEnvironmentLayer[_grid.ToIndex(newPos.x, newPos.y)];
 
                     if (TileIsWalkable(destTile.LayerMask))
                     {
@@ -122,9 +122,9 @@ namespace Assets.Scripts.Runtime.ViewModels.Player
 
             do
             {
-                index = rand.NextInt(grid.EnvironmentLayer.Length);
+                index = rand.NextInt(grid.StaticEnvironmentLayer.Length);
             }
-            while (!_playerSpawnMask.HasFlag(grid.EnvironmentLayer[index].LayerMask));
+            while (!_playerSpawnMask.HasFlag(grid.StaticEnvironmentLayer[index].LayerMask));
 
             PlayerPos = grid.ToV3Int(index);
 

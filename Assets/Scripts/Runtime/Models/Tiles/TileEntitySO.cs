@@ -1,3 +1,4 @@
+using Assets.Scripts.Runtime.Models.ValueTypes;
 using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Models.Tiles
@@ -9,6 +10,12 @@ namespace Assets.Scripts.Runtime.Models.Tiles
     {
         [field: Header("General")]
         [field: Space(10)]
+
+        /// <summary>
+        /// Attributs de la case
+        /// </summary>
+        [field: SerializeField]
+        public TileAttributes Attributes { get; private set; }
 
         /// <summary>
         /// La description de la case

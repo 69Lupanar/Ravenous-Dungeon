@@ -14,31 +14,38 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// La case représentant le sol
         /// </summary>
         [field: SerializeField]
-        public EnvironmentTileSO GroundTile { get; private set; }
+        public StaticEnvironmentTileSO GroundTile { get; private set; }
 
         /// <summary>
         /// La case représentant les zones encore non explorées
         /// </summary>
         [field: SerializeField]
-        public EnvironmentTileSO UnknownTile { get; private set; }
+        public TileEntitySO UnknownTile { get; private set; }
 
         /// <summary>
         /// Les cases représentant les liquides
         /// </summary>
         [field: SerializeField]
-        public SerializedDictionary<RiverType, EnvironmentTileSO> RiverTiles { get; private set; }
+        public SerializedDictionary<RiverType, LiquidTileSO> RiverTiles { get; private set; }
 
         /// <summary>
         /// La case représentant le mur
         /// </summary>
         [field: SerializeField]
-        public ItemSelectionChance<EnvironmentTileSO>[] WallTiles { get; private set; }
+        public ItemSelectionChance<StaticEnvironmentTileSO>[] WallTiles { get; private set; }
 
 
         /// <summary>
         /// La case représentant les portes
         /// </summary>
         [field: SerializeField]
-        public ItemSelectionChance<FeatureTileSO>[] DoorTiles { get; private set; }
+        public ItemSelectionChance<DoorTileSO>[] DoorTiles { get; private set; }
+
+
+        /// <summary>
+        /// La case représentant les éléments interactifs
+        /// </summary>
+        [field: SerializeField]
+        public ItemSelectionChance<InteractableTileSO>[] InteractableTiles { get; private set; }
     }
 }

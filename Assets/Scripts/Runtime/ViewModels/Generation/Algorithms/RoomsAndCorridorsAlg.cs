@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Scripts.Runtime.Models.Generation;
+using Assets.Scripts.Runtime.Models.Generation.Algorithms;
 using Assets.Scripts.Runtime.Models.Map;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
@@ -41,7 +42,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 
             // Remplit la carte de murs pour pouvoir en creuser les salles
 
-            GenerationAlgUtils.FillMap(grid.EnvironmentLayer, grid.GridSize, tileLibrary.WallTiles);
+            GenerationAlgUtils.FillMapWithWalls(grid.StaticEnvironmentLayer, grid.GridSize, tileLibrary.WallTiles);
 
             // Tant qu'on n'a pas atteint nbMaxRooms, on tente de générer des salles
 
@@ -76,7 +77,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 
                 _rooms.Add(newRoom);
 
-                GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, newPos, newDimensions, tileLibrary, grid.EnvironmentLayer);
+                GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, newPos, newDimensions, tileLibrary, grid.StaticEnvironmentLayer);
                 ++nbAttemps;
             }
 
@@ -91,13 +92,13 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
 
                     if (rand.NextBool())
                     {
-                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.EnvironmentLayer);
-                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.EnvironmentLayer);
+                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.StaticEnvironmentLayer);
+                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.StaticEnvironmentLayer);
                     }
                     else
                     {
-                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.EnvironmentLayer);
-                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.EnvironmentLayer);
+                        GenerationAlgUtils.CreateVerticalTunnel(grid.GridSize, previousRoom.Centroid.y, curRoom.Centroid.y, curRoom.Centroid.x, tileLibrary, grid.StaticEnvironmentLayer);
+                        GenerationAlgUtils.CreateHorizontalTunnel(grid.GridSize, previousRoom.Centroid.x, curRoom.Centroid.x, previousRoom.Centroid.y, tileLibrary, grid.StaticEnvironmentLayer);
                     }
                 }
             }

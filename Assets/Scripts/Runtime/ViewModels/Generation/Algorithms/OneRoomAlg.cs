@@ -20,11 +20,11 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
         {
             // Remplit la carte de murs pour pouvoir en creuser les salles
 
-            GenerationAlgUtils.FillMap(grid.EnvironmentLayer, grid.GridSize, tileLibrary.WallTiles);
+            GenerationAlgUtils.FillMapWithWalls(grid.StaticEnvironmentLayer, grid.GridSize, tileLibrary.WallTiles);
 
             // Creuse une unique salle qui remplit tout l'étage
 
-            GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, new(1, 1), new(grid.GridSize.x - 2, grid.GridSize.y - 2), tileLibrary, grid.EnvironmentLayer);
+            GenerationAlgUtils.CreateRectangularRoom(grid.GridSize, new(1, 1), new(grid.GridSize.x - 2, grid.GridSize.y - 2), tileLibrary, grid.StaticEnvironmentLayer);
 
             grid.Rooms = new DungeonStructure[1] { new(new int2(1, 1), grid.GridSize - new int2(2, 2)) };
             grid.Corridors = new DungeonStructure[0];

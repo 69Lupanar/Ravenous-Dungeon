@@ -1,6 +1,6 @@
+using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.Generation;
 using Assets.Scripts.Runtime.Models.Player;
-using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// La couche de la tilemap contenant les cases interagissables
         /// </summary>
         [SerializeField]
-        private Tilemap _featuresTilemap;
+        private Tilemap _interactablesTilemap;
 
         /// <summary>
         /// La couche de la tilemap contenant le joueur
@@ -86,6 +86,8 @@ namespace Assets.Scripts.Runtime.Views.Generation
 
         #region Méthodes privées
 
+        #region Callbacks
+
         /// <summary>
         /// Appelé quand la génération est terminée
         /// </summary>
@@ -94,13 +96,15 @@ namespace Assets.Scripts.Runtime.Views.Generation
         {
             Clear();
             _curPalette = e.SpriteLibrary;
-            DisplayEnvironment(e.Grid.GridSize, e.Grid.EnvironmentLayer, e.SpriteLibrary);
-            DisplayFeatures(e.Grid.GridSize, e.Grid.FeaturesLayer, e.SpriteLibrary);
+            DisplayEnvironment(e.Grid.GridSize, e.Grid.StaticEnvironmentLayer, e.SpriteLibrary, _environmentTilemap);
+            DisplayLiquids(e.Grid.GridSize, e.Grid.LiquidsLayer, e.SpriteLibrary, _environmentTilemap);
+            DisplayDoors(e.Grid.GridSize, e.Grid.DoorsLayer, e.SpriteLibrary, _interactablesTilemap);
+            DisplayInteractables(e.Grid.GridSize, e.Grid.InteractablesLayer, e.SpriteLibrary, _interactablesTilemap);
         }
 
         private void OnPlayerSpawned(object sender, PlayerSpawnedEventArgs e)
         {
-            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, _curPalette);
+            DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, _curPalette, _playerTilemap);
         }
 
         /// <summary>
@@ -109,8 +113,10 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <param name="e">Les infos sur l'action</param>
         private void OnPlayerMoved(object _, PlayerMovedEventArgs e)
         {
-            DisplayPlayer(e.PreviousPos, e.NewPos, _curPalette);
+            DisplayPlayer(e.PreviousPos, e.NewPos, _curPalette, _playerTilemap);
         }
+
+        #endregion
 
         /// <summary>
         /// Efface la carte
@@ -118,7 +124,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void Clear()
         {
             _environmentTilemap.ClearAllTiles();
-            _featuresTilemap.ClearAllTiles();
+            _interactablesTilemap.ClearAllTiles();
             _playerTilemap.ClearAllTiles();
         }
 
@@ -128,16 +134,46 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <param name="gridSize">Les dimensions de la grille</param>
         /// <param name="layer">La couche à afficher</param>
         /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
-        private void DisplayEnvironment(int2 gridSize, TileEntitySO[] layer, SpriteLibrarySO sl)
+        /// <param name="tilemap">La couche de la grille</param>
+        private void DisplayEnvironment(int2 gridSize, StaticEnvironmentActor[] layer, SpriteLibrarySO sl, Tilemap tilemap)
         {
             for (int i = 0; i < layer.Length; ++i)
             {
                 int2 xy = new(i % gridSize.x, i / gridSize.x);
-                TileEntitySO tile = layer[i];
-                ItemSelectionChance<Tile>[] possibleTiles = sl.Tiles[tile];
-                Tile selectedTile = possibleTiles.Sample();
+                StaticEnvironmentActor tile = layer[i];
 
-                _environmentTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                if (tile.Data != null)
+                {
+                    ItemSelectionChance<Tile>[] possibleTiles = sl.StaticEnvironmentTiles[tile.Data];
+                    Tile selectedTile = possibleTiles.Sample();
+
+                    tilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Affiche la carte à l'écran
+        /// </summary>
+        /// <param name="gridSize">Les dimensions de la grille</param>
+        /// <param name="layer">La couche à afficher</param>
+        /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
+        /// <param name="tilemap">La couche de la grille</param>
+        private void DisplayLiquids(int2 gridSize, LiquidActor[] layer, SpriteLibrarySO sl, Tilemap tilemap)
+        {
+            for (int i = 0; i < layer.Length; ++i)
+            {
+                int2 xy = new(i % gridSize.x, i / gridSize.x);
+                LiquidActor tile = layer[i];
+
+                if (tile.Data != null)
+                {
+                    ItemSelectionChance<Tile>[] possibleTiles = sl.LiquidTiles[tile.Data];
+                    Tile selectedTile = possibleTiles.Sample();
+
+                    tilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                }
             }
         }
 
@@ -147,19 +183,44 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <param name="gridSize">Les dimensions de la grille</param>
         /// <param name="layer">La couche à afficher</param>
         /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
-        private void DisplayFeatures(int2 gridSize, FeatureTileSO[] layer, SpriteLibrarySO sl)
+        /// <param name="tilemap">La couche de la grille</param>
+        private void DisplayDoors(int2 gridSize, DoorActor[] layer, SpriteLibrarySO sl, Tilemap tilemap)
         {
             for (int i = 0; i < layer.Length; ++i)
             {
                 int2 xy = new(i % gridSize.x, i / gridSize.x);
-                TileEntitySO tile = layer[i];
+                DoorActor tile = layer[i];
 
-                if (tile != null)
+                if (tile.Data != null)
                 {
-                    ItemSelectionChance<Tile>[] possibleTiles = sl.Tiles[tile];
+                    ItemSelectionChance<Tile>[] possibleTiles = sl.DoorTiles[tile.Data];
                     Tile selectedTile = possibleTiles.Sample();
 
-                    _featuresTilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                    tilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Affiche les cases spéciales
+        /// </summary>
+        /// <param name="gridSize">Les dimensions de la grille</param>
+        /// <param name="layer">La couche à afficher</param>
+        /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
+        /// <param name="tilemap">La couche de la grille</param>
+        private void DisplayInteractables(int2 gridSize, InteractableActor[] layer, SpriteLibrarySO sl, Tilemap tilemap)
+        {
+            for (int i = 0; i < layer.Length; ++i)
+            {
+                int2 xy = new(i % gridSize.x, i / gridSize.x);
+                InteractableActor tile = layer[i];
+
+                if (tile.Data != null)
+                {
+                    ItemSelectionChance<Tile>[] possibleTiles = sl.IneractableTiles[tile.Data];
+                    Tile selectedTile = possibleTiles.Sample();
+
+                    tilemap.SetTile(new Vector3Int(xy.x, xy.y), selectedTile);
                 }
             }
         }
@@ -170,10 +231,11 @@ namespace Assets.Scripts.Runtime.Views.Generation
         /// <param name="previousPos">La position précédente du joueur</param>
         /// <param name="curPos">La position actuelle du joueur</param>
         /// <param name="sl">Contient les sprites utilisés pour l'affichage des cases</param>
-        private void DisplayPlayer(Vector3Int previousPos, Vector3Int curPos, SpriteLibrarySO sl)
+        /// <param name="tilemap">La couche de la grille</param>
+        private void DisplayPlayer(Vector3Int previousPos, Vector3Int curPos, SpriteLibrarySO sl, Tilemap tilemap)
         {
-            _playerTilemap.SetTile(previousPos, null);
-            _playerTilemap.SetTile(curPos, sl.PlayerSprite);
+            tilemap.SetTile(previousPos, null);
+            tilemap.SetTile(curPos, sl.PlayerSprite);
         }
 
         #endregion

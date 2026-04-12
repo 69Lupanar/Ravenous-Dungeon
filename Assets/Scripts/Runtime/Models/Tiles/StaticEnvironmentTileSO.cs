@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Assets.Scripts.Runtime.Models.Tiles
 {
     /// <summary>
-    /// Données d'une case représentant un élément de l'environnement (mur, sol, liquide, etc.)
+    /// Données d'une case représentant un élément statique de l'environnement (mur, sol etc.)
     /// </summary>
     [CreateAssetMenu(fileName = "New Environment Tile", menuName = "Scriptable Objects/Tiles/Environment Tile")]
-    public sealed class EnvironmentTileSO : TileEntitySO
+    public sealed class StaticEnvironmentTileSO : TileEntitySO
     {
         [field: Space(10)]
         [field: Header("Environment")]
@@ -17,12 +17,6 @@ namespace Assets.Scripts.Runtime.Models.Tiles
         /// Les attributs de cette case
         /// </summary>
         [field: SerializeField]
-        public EnvironmentTileLayerMask LayerMask { get; private set; }
-
-        /// <summary>
-        /// true si le joueur peut voir à travers cette case
-        /// </summary>
-        [field: SerializeField]
-        public bool SeeThrough { get; private set; }
+        public EnvironmentTileLayerMask LayerMask { get; set; }
     }
 }
