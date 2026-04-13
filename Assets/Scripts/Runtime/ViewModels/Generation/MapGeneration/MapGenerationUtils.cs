@@ -5,12 +5,12 @@ using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
 using Unity.Mathematics;
 
-namespace Assets.Scripts.Runtime.ViewModels.Generation.Algorithms
+namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
 {
     /// <summary>
     /// Contient les méthodes des algorithmes de génération
     /// </summary>
-    internal static class GenerationAlgUtils
+    internal static class MapGenerationUtils
     {
         #region Méthodes publiques
 

@@ -6,8 +6,10 @@ using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
-using Assets.Scripts.Runtime.ViewModels.Generation.Algorithms;
+using Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration;
+using Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration;
 using Assets.Scripts.Runtime.ViewModels.Player;
+using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using Grid = Assets.Scripts.Runtime.Models.Map.Grid;
@@ -122,7 +124,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             _grid = new Grid(gridSize);
             GenerationAlgorithmSettingsSO selectedAlg = gs.Algorithms.Sample(ref _rand);
-            RiverGenerationSettingsSO selectedRiverSettings = gs.RiverGenerationSettings.Sample(ref _rand);
+            LiquidGenerationSettingsSO selectedRiverSettings = gs.RiverGenerationSettings.Sample(ref _rand);
 
             // Génère l'environnement
 
@@ -160,10 +162,10 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
             switch (alg)
             {
                 case OneRoomAlgorithmSettingsSO:
-                    OneRoomAlg.GenerateEnvironmnent(tl, grid);
+                    OneRoomMapGeneration.GenerateEnvironmnent(tl, grid);
                     break;
                 case RoomsAndCorridorsAlgorithmSettingsSO settings:
-                    RoomsAndCorridorsAlg.GenerateEnvironmnent(settings, tl, grid, ref rand);
+                    RoomsAndCorridorsMapGeneration.GenerateEnvironmnent(settings, tl, grid, ref rand);
                     break;
             }
         }
@@ -270,16 +272,52 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         /// <param name="rgs">Paramètres de génération des rivières et lacs</param>
         /// <param name="grid">La grille</param>
         /// <param name="rand">Générateur d'aléatoire</param>
-        private void GenerateRivers(TileLibrarySO tl, RiverGenerationSettingsSO rgs, Grid grid, ref Random rand)
+        private void GenerateRivers(TileLibrarySO tl, LiquidGenerationSettingsSO rgs, Grid grid, ref Random rand)
         {
             int nbRiversToGenerate = rand.NextFloat(100f) < rgs.RiverSpawnRate ? rand.NextInt(rgs.NbRiversInterval.x, rgs.NbRiversInterval.y) : 0;
+            int nbLakesToGenerate = rand.NextFloat(100f) < rgs.LakeSpawnRate ? rand.NextInt(rgs.NbLakesInterval.x, rgs.NbLakesInterval.y) : 0;
 
             for (int i = 0; i < nbRiversToGenerate; ++i)
             {
-                RiverType type = rgs.RiverTypes.Sample(ref rand);
-                IEnvironmentActor liquidTile = tl.RiverTiles[type];
+                int nbForks = rand.NextFloat(100f) < rgs.RiverForkSpawnRate ? rand.NextInt(rgs.NbRiversForksInterval.x, rgs.NbRiversForksInterval.y) : 0;
                 int width = rand.NextInt(rgs.RiverWidthInterval.x, rgs.RiverWidthInterval.y);
-                System.Span<int2> directions = stackalloc int2[4] { new(1, 0), new(-1, 0), new(0, 1), new(0, -1) };
+                NativeArray<int2> directions = new(4, Allocator.Temp);
+                directions[0] = new(1, 0);
+                directions[1] = new(-1, 0);
+                directions[2] = new(0, 1);
+                directions[3] = new(0, -1);
+
+                // Sélectionne un type de liquide au hasard.
+                // Chaque case dans le tableau correspond à différents niveaux de force du liquide.
+
+                LiquidType type = rgs.LiquidTypes.Sample(ref rand);
+                LiquidTileSO liquidTile = tl.RiverTiles[type].Sample(ref rand);
+
+                // On sélectionne 2 bords de la carte au hasard comme points de départ/fin
+
+                LiquidGenerationUtils.GetPointOnMapEdge(rand.NextInt(0, 4), width, grid.GridSize, ref rand, out int2 start);
+                LiquidGenerationUtils.GetPointOnMapEdge(rand.NextInt(0, 4), width, grid.GridSize, ref rand, out int2 end);
+
+                // On génère la rivière
+
+                LiquidGenerationUtils.CreateRiver(width, start, end, directions.AsReadOnly(), grid.GridSize, ref rand, out NativeArray<int2> path);
+
+                // On retire toutes les cases destructibles
+                // pour y placer une zone liquide
+
+                for (int j = 0; j < path.Length; ++j)
+                {
+                    int index = grid.ToIndex(path[j]);
+
+                    if (!grid.StaticEnvironmentLayer[index].Data.Attributes.HasFlag(TileAttributes.Destructible) &&
+                        !grid.InteractablesLayer[index].Data.Attributes.HasFlag(TileAttributes.Destructible))
+                    {
+                        grid.StaticEnvironmentLayer[index] = new();
+                        grid.DoorsLayer[index] = new();
+                        grid.InteractablesLayer[index] = new();
+                        grid.LiquidsLayer[index] = new LiquidActor(liquidTile);
+                    }
+                }
             }
         }
 

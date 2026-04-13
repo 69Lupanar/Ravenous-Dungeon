@@ -18,7 +18,7 @@ namespace Assets.Scripts.Runtime.Models.ValueTypes
     /// <summary>
     /// Le type d'une rivière pouvant être générée
     /// </summary>
-    public enum RiverType
+    public enum LiquidType
     {
         Water = 1,
         Lava = 2,

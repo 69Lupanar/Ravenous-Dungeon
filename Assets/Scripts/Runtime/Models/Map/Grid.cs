@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.ValueTypes;
+using Unity.Burst;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -12,6 +13,11 @@ namespace Assets.Scripts.Runtime.Models.Map
     public sealed class Grid
     {
         #region Propriétés
+
+        /// <summary>
+        /// Taille des tableaux générés
+        /// </summary>
+        public int Length => GridSize.x * GridSize.y;
 
         /// <summary>
         /// Dimensions de la grille
@@ -73,8 +79,9 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Convertit les coordonnées en index
         /// </summary>
+        [BurstCompile]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int ToIndex(int2 coords)
+        public int ToIndex(in int2 coords)
         {
             return ToIndex(coords.x, coords.y);
         }
@@ -82,8 +89,9 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Convertit les coordonnées en index
         /// </summary>
+        [BurstCompile]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int ToIndex(int x, int y)
+        public int ToIndex(in int x, in int y)
         {
             return x + y * GridSize.x;
         }
@@ -91,8 +99,9 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Convertit les coordonnées en index
         /// </summary>
+        [BurstCompile]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int2 ToInt2(int index)
+        public int2 ToInt2(in int index)
         {
             return new int2(index % GridSize.x, index / GridSize.x);
         }
@@ -100,8 +109,9 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <summary>
         /// Convertit les coordonnées en index
         /// </summary>
+        [BurstCompile]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3Int ToV3Int(int index)
+        public Vector3Int ToV3Int(in int index)
         {
             return new Vector3Int(index % GridSize.x, index / GridSize.x, 0);
         }
@@ -110,8 +120,9 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// Indique si les coordonnées tombent en dehors de la grille
         /// </summary>
         /// <param name="coords">Les coordonnées</param>
+        [BurstCompile]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OutOfBounds(Vector3Int coords)
+        public bool OutOfBounds(in Vector3Int coords)
         {
             return coords.x < 0 || coords.x >= GridSize.x || coords.y < 0 || coords.y >= GridSize.y;
         }

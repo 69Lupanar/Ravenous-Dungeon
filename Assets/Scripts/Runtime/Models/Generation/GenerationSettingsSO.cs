@@ -44,7 +44,7 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// Paramètre de génération des rivières et lacs
         /// </summary>
         [field: SerializeField]
-        public ItemSelectionChance<RiverGenerationSettingsSO>[] RiverGenerationSettings { get; private set; }
+        public ItemSelectionChance<LiquidGenerationSettingsSO>[] RiverGenerationSettings { get; private set; }
 
         /// <summary>
         /// La liste des algos de génération acceptés.

@@ -26,7 +26,8 @@ namespace Assets.Scripts.Runtime.Models.Tiles.TilePalette
         /// Les cases représentant les liquides
         /// </summary>
         [field: SerializeField]
-        public SerializedDictionary<RiverType, LiquidTileSO> RiverTiles { get; private set; }
+        [field: SerializedDictionary("Tile", "Possible Sprites")]
+        public SerializedDictionary<LiquidType, ItemSelectionChance<LiquidTileSO>[]> RiverTiles { get; private set; }
 
         /// <summary>
         /// La case représentant le mur

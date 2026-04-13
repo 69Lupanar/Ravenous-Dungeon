@@ -10,16 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d04dd7517e91d9743bedfb3fe01ba2f9, type: 3}
-  m_Name: Test River Generation Settings
+  m_Name: Test Liquid Generation Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Generation.RiverGenerationSettingsSO
   <NbRiversInterval>k__BackingField:
     x: 1
     y: 4
-  <RiverSpawnRate>k__BackingField: 100
+  <NbLakesInterval>k__BackingField:
+    x: 1
+    y: 4
+  <NbRiversForksInterval>k__BackingField:
+    x: 1
+    y: 3
+  <RiverSpawnRate>k__BackingField: 50
+  <RiverForkSpawnRate>k__BackingField: 50
+  <LakeSpawnRate>k__BackingField: 50
   <RiverWidthInterval>k__BackingField:
     x: 1
     y: 4
-  <RiverTypes>k__BackingField:
+  <LakeWidthInterval>k__BackingField:
+    x: 5
+    y: 15
+  <LiquidTypes>k__BackingField:
   - <Value>k__BackingField: 1
     <Chance>k__BackingField: 50
   - <Value>k__BackingField: 2

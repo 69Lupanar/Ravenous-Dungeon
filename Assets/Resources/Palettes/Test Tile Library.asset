@@ -17,9 +17,17 @@ MonoBehaviour:
   <RiverTiles>k__BackingField:
     _serializedList:
     - Key: 1
-      Value: {fileID: 11400000, guid: 2693b23d3f0a5c7408c5459b71fcf60e, type: 2}
+      Value:
+      - <Value>k__BackingField: {fileID: 11400000, guid: 2693b23d3f0a5c7408c5459b71fcf60e, type: 2}
+        <Chance>k__BackingField: 50
+      - <Value>k__BackingField: {fileID: 11400000, guid: c90fbc4b00bf74f4c8e0894908e47853, type: 2}
+        <Chance>k__BackingField: 25
+      - <Value>k__BackingField: {fileID: 11400000, guid: d408d9cba5cbb0a4b9e569e90898667f, type: 2}
+        <Chance>k__BackingField: 25
     - Key: 2
-      Value: {fileID: 11400000, guid: e2b7174c16a74d1409a5e5c5cfd5e4a1, type: 2}
+      Value:
+      - <Value>k__BackingField: {fileID: 11400000, guid: e2b7174c16a74d1409a5e5c5cfd5e4a1, type: 2}
+        <Chance>k__BackingField: 0
   <WallTiles>k__BackingField:
   - <Value>k__BackingField: {fileID: 11400000, guid: f5b1cd8abc0ed4b41b146e94f912bb33, type: 2}
     <Chance>k__BackingField: 0
