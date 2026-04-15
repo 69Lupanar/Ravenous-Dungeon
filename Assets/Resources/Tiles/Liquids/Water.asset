@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e8e7fb37111854f96b1e535b9c50f0, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Tiles.EnvironmentTileSO
-  <Attributes>k__BackingField: -1
+  <Attributes>k__BackingField: 1
   <Description>k__BackingField: A steady stream of cool water.
   <LayerMask>k__BackingField: 8
-  <CurrentStrength>k__BackingField: 1
+  <FlowStrength>k__BackingField: 0

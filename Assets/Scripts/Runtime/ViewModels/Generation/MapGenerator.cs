@@ -291,7 +291,6 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
                 // Chaque case dans le tableau correspond à différents niveaux de force du liquide.
 
                 LiquidType type = rgs.LiquidTypes.Sample(ref rand);
-                LiquidTileSO liquidTile = tl.RiverTiles[type].Sample(ref rand);
 
                 // On sélectionne 2 bords de la carte au hasard comme points de départ/fin
 
@@ -308,9 +307,10 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
                 for (int j = 0; j < path.Length; ++j)
                 {
                     int index = grid.ToIndex(path[j]);
+                    LiquidTileSO liquidTile = tl.RiverTiles[type].Sample(ref rand);
 
-                    if (!grid.StaticEnvironmentLayer[index].Data.Attributes.HasFlag(TileAttributes.Destructible) &&
-                        !grid.InteractablesLayer[index].Data.Attributes.HasFlag(TileAttributes.Destructible))
+                    if (!grid.StaticEnvironmentLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
+                        !grid.InteractablesLayer[index].Attributes.HasFlag(TileAttributes.Indestructible))
                     {
                         grid.StaticEnvironmentLayer[index] = new();
                         grid.DoorsLayer[index] = new();

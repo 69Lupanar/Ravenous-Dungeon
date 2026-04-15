@@ -1,4 +1,5 @@
 using Assets.Scripts.Runtime.Models.Tiles;
+using Assets.Scripts.Runtime.Models.ValueTypes;
 
 namespace Assets.Scripts.Runtime.Models.Actors
 {
@@ -14,5 +15,10 @@ namespace Assets.Scripts.Runtime.Models.Actors
         /// La case source
         /// </summary>
         public T Data { get; set; }
+
+        /// <summary>
+        /// Les attributs de l'acteur
+        /// </summary>
+        public TileAttributes Attributes { get; set; }
     }
 }

@@ -18,16 +18,23 @@ namespace Assets.Scripts.Runtime.Models.Actors
         /// Les attributs de cette case
         /// </summary>
         [field: SerializeField]
+        public TileAttributes Attributes { get; set; }
+
+        /// <summary>
+        /// Les attributs de cette case
+        /// </summary>
+        [field: SerializeField]
         public EnvironmentTileLayerMask LayerMask { get; set; }
 
         /// <summary>
         /// Constructeur
         /// </summary>
         /// <param name="data">La donnée</param>
-        public StaticEnvironmentActor(StaticEnvironmentTileSO data) : this()
+        public StaticEnvironmentActor(StaticEnvironmentTileSO data)
         {
             Data = data;
-            this.LayerMask = data.LayerMask;
+            Attributes = data.Attributes;
+            LayerMask = data.LayerMask;
         }
     }
 }

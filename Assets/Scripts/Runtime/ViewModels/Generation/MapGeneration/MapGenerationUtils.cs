@@ -17,27 +17,22 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
         /// <summary>
         /// Remplit la carte entière d'un seul type de case
         /// </summary>
-        internal static void FillMap(IEnvironmentActor[] environmentLayer, int2 gridSize, StaticEnvironmentTileSO tile)
-        {
-            for (int y = 0; y < gridSize.y; ++y)
-            {
-                for (int x = 0; x < gridSize.x; ++x)
-                {
-                    environmentLayer[x + y * gridSize.x] = new StaticEnvironmentActor(tile);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Remplit la carte entière d'un seul type de case
-        /// </summary>
         internal static void FillMapWithWalls(StaticEnvironmentActor[] environmentLayer, int2 gridSize, ItemSelectionChance<StaticEnvironmentTileSO>[] tiles)
         {
             for (int y = 0; y < gridSize.y; ++y)
             {
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    environmentLayer[x + y * gridSize.x] = new StaticEnvironmentActor(tiles.Sample());
+                    int index = x + y * gridSize.x;
+                    environmentLayer[index] = new StaticEnvironmentActor(tiles.Sample());
+
+                    // Si c'est les limites de la carte, on marque les murs comme indestructibles
+
+                    if ((y == 0 || y == gridSize.x - 1) ^ (x > 1 && x < gridSize.x))
+                    {
+                        ref StaticEnvironmentActor actor = ref environmentLayer[index];
+                        actor.Attributes |= TileAttributes.Indestructible;
+                    }
                 }
             }
         }

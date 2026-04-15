@@ -31,7 +31,7 @@ namespace Assets.Scripts.Runtime.Models.ValueTypes
     public enum TileAttributes
     {
         SeeThrough = 1,
-        Destructible = 2,
+        Indestructible = 2,
     }
 
 }

@@ -19,8 +19,7 @@ namespace Assets.Scripts.Runtime.Models.Actors
         public bool IsOpen { get; set; }
 
         /// <summary>
-        /// Les attributs de la porte. Permet de permuter 
-        /// l'état SeeThrough
+        /// Les attributs de l'acteur
         /// </summary>
         public TileAttributes Attributes { get; set; }
 

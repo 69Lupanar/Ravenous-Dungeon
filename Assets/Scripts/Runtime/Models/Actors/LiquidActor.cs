@@ -1,5 +1,6 @@
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.ValueTypes;
+using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.Models.Actors
 {
@@ -14,6 +15,11 @@ namespace Assets.Scripts.Runtime.Models.Actors
         public LiquidTileSO Data { get; set; }
 
         /// <summary>
+        /// Les attributs de l'acteur
+        /// </summary>
+        public TileAttributes Attributes { get; set; }
+
+        /// <summary>
         /// Les attributs de cette case
         /// </summary>
         public EnvironmentTileLayerMask LayerMask { get; set; }
@@ -23,17 +29,33 @@ namespace Assets.Scripts.Runtime.Models.Actors
         /// son temps de mouvement est multiplié par cette valeur.
         /// S'il descent le courant, il est divisé par cette valeur.
         /// </summary>
-        public int CurrentStrength { get; set; }
+        public int FlowStrength { get; set; }
+
+        /// <summary>
+        /// La direction du courant
+        /// </summary>
+        public int2 FlowDirection { get; set; }
 
         /// <summary>
         /// Constructeur
         /// </summary>
         /// <param name="data">La donnée</param>
-        public LiquidActor(LiquidTileSO data) : this()
+        public LiquidActor(LiquidTileSO data) : this(data, int2.zero)
+        {
+        }
+
+        /// <summary>
+        /// Constructeur
+        /// </summary>
+        /// <param name="data">La donnée</param>
+        /// <param name="flowDirection">La direction du courant</param>
+        public LiquidActor(LiquidTileSO data, int2 flowDirection)
         {
             Data = data;
-            this.LayerMask = data.LayerMask;
-            this.CurrentStrength = data.CurrentStrength;
+            Attributes = data.Attributes;
+            LayerMask = data.LayerMask;
+            FlowStrength = data.FlowStrength;
+            FlowDirection = flowDirection;
         }
     }
 }

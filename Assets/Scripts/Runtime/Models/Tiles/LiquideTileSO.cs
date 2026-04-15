@@ -26,6 +26,6 @@ namespace Assets.Scripts.Runtime.Models.Tiles
         /// S'il descent le courant, il est divisé par cette valeur.
         /// </summary>
         [field: SerializeField]
-        public int CurrentStrength { get; set; }
+        public int FlowStrength { get; set; }
     }
 }

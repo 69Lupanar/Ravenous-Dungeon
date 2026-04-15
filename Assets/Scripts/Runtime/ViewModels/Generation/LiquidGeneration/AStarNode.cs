@@ -48,7 +48,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         /// Indique si les deux objets sont égaux
         /// </summary>
         /// <param name="other">L'objet comparé</param>
-        public bool Equals(AStarNode other)
+        public readonly bool Equals(AStarNode other)
         {
             return math.all(Position == other.Position) && GCost == other.GCost && HCost == other.HCost && math.all(ParentPos == other.ParentPos);
         }
