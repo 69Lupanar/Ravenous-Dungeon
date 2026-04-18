@@ -143,22 +143,22 @@ namespace Assets.Scripts.Runtime.Models.Map
             {
                 // Bord droit
                 case 0:
-                    result = new int2(GridSize.x - offsetFromEdge, rand.NextInt(width, GridSize.y - width));
+                    result = new int2(GridSize.x - 1 - offsetFromEdge, rand.NextInt(width, GridSize.y - 1 - width));
                     break;
 
                 // Bord gauche
                 case 1:
-                    result = new int2(offsetFromEdge, rand.NextInt(width, GridSize.y - width));
+                    result = new int2(offsetFromEdge, rand.NextInt(width, GridSize.y - 1 - width));
                     break;
 
                 // Bord haut
                 case 2:
-                    result = new int2(rand.NextInt(width, GridSize.x - width), GridSize.y - offsetFromEdge);
+                    result = new int2(rand.NextInt(width, GridSize.x - 1 - width), GridSize.y - 1 - offsetFromEdge);
                     break;
 
                 // Bord bas
                 case 3:
-                    result = new int2(rand.NextInt(width, GridSize.x - width), offsetFromEdge);
+                    result = new int2(rand.NextInt(width, GridSize.x - 1 - width), offsetFromEdge);
                     break;
 
                 default:

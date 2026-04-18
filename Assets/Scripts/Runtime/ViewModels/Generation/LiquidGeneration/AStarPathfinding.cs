@@ -134,16 +134,16 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
             int2 down = currentNodePos + new int2(0, -1);
             int2 left = currentNodePos + new int2(-1, 0);
 
-            if (up.x > 0 && up.x < gridSize.x && up.y > 0 && up.y < gridSize.y)
+            if (up.x > 0 && up.x < gridSize.x - 1 && up.y > 0 && up.y < gridSize.y - 1)
                 neighbours.Add(grid[ToIndex(up, gridSize.x)]);
 
-            if (right.x > 0 && right.x < gridSize.x && right.y > 0 && right.y < gridSize.y)
+            if (right.x > 0 && right.x < gridSize.x - 1 && right.y > 0 && right.y < gridSize.y - 1)
                 neighbours.Add(grid[ToIndex(right, gridSize.x)]);
 
-            if (down.x > 0 && down.x < gridSize.x && down.y > 0 && down.y < gridSize.y)
+            if (down.x > 0 && down.x < gridSize.x - 1 && down.y > 0 && down.y < gridSize.y - 1)
                 neighbours.Add(grid[ToIndex(down, gridSize.x)]);
 
-            if (left.x > 0 && left.x < gridSize.x && left.y > 0 && left.y < gridSize.y)
+            if (left.x > 0 && left.x < gridSize.x - 1 && left.y > 0 && left.y < gridSize.y - 1)
                 neighbours.Add(grid[ToIndex(left, gridSize.x)]);
 
             result = neighbours.AsArray();
@@ -179,11 +179,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
         {
             NativeList<int2> path = new(0, Allocator.Temp);
             AStarNode currentNode = grid[ToIndex(endPos, gridSize.x)];
+            path.Add(currentNode.Position);
 
-            while (currentNode.Position.x != startPos.x && currentNode.Position.y != startPos.y)
+            while (currentNode.Position.x != startPos.x || currentNode.Position.y != startPos.y)
             {
-                path.Add(currentNode.Position);
                 currentNode = grid[ToIndex(currentNode.ParentPos, gridSize.x)];
+                path.Add(currentNode.Position);
             }
 
             path.Reverse();

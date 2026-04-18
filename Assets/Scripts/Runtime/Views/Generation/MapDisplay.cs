@@ -152,7 +152,6 @@ namespace Assets.Scripts.Runtime.Views.Generation
             }
         }
 
-
         /// <summary>
         /// Affiche la carte à l'écran
         /// </summary>

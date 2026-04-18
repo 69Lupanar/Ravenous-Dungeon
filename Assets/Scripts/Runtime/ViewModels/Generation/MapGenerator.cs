@@ -307,9 +307,9 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
                     if (!grid.StaticEnvironmentLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
                         !grid.InteractablesLayer[index].Attributes.HasFlag(TileAttributes.Indestructible))
                     {
-                        grid.StaticEnvironmentLayer[index] = new();
-                        grid.DoorsLayer[index] = new();
-                        grid.InteractablesLayer[index] = new();
+                        grid.StaticEnvironmentLayer[index] = default;
+                        grid.DoorsLayer[index] = default;
+                        grid.InteractablesLayer[index] = default;
                         grid.LiquidsLayer[index] = new LiquidActor(liquidTile);
                     }
                 }

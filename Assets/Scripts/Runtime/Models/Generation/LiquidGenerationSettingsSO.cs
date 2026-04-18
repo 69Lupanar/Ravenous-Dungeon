@@ -11,24 +11,6 @@ namespace Assets.Scripts.Runtime.Models.Generation
     public class LiquidGenerationSettingsSO : ScriptableObject
     {
         /// <summary>
-        /// L'intervalle possible du nombre de rivières à générer
-        /// </summary>
-        [field: SerializeField]
-        public int2 NbRiversInterval { get; private set; }
-
-        /// <summary>
-        /// L'intervalle possible du nombre de lacs à générer
-        /// </summary>
-        [field: SerializeField]
-        public int2 NbLakesInterval { get; private set; }
-
-        /// <summary>
-        /// L'intervalle possible de branches que peut avoir une rivière
-        /// </summary>
-        [field: SerializeField]
-        public int2 NbRiversForksInterval { get; private set; }
-
-        /// <summary>
         /// %age de chance qu'au mois 1 rivière soit créée lors de la génération
         /// </summary>
         [field: SerializeField, Range(0f, 100f)]
@@ -45,6 +27,24 @@ namespace Assets.Scripts.Runtime.Models.Generation
         /// </summary>
         [field: SerializeField, Range(0f, 100f)]
         public float LakeSpawnRate { get; private set; }
+
+        /// <summary>
+        /// L'intervalle possible du nombre de rivières à générer
+        /// </summary>
+        [field: SerializeField]
+        public int2 NbRiversInterval { get; private set; }
+
+        /// <summary>
+        /// L'intervalle possible du nombre de lacs à générer
+        /// </summary>
+        [field: SerializeField]
+        public int2 NbLakesInterval { get; private set; }
+
+        /// <summary>
+        /// L'intervalle possible de branches que peut avoir une rivière
+        /// </summary>
+        [field: SerializeField]
+        public int2 NbRiversForksInterval { get; private set; }
 
         /// <summary>
         /// L'intervalle possible de largeur des rivières générées
