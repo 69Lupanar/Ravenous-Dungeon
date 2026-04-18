@@ -11,6 +11,12 @@ namespace Assets.Scripts.Runtime.Models.Generation
     public class LiquidGenerationSettingsSO : ScriptableObject
     {
         /// <summary>
+        /// true si l'on permet à une branche d'une rivière de retourner à son mur d'origine
+        /// </summary>
+        [field: SerializeField]
+        public bool AllowForkToReturnToStartingEdge { get; private set; }
+
+        /// <summary>
         /// %age de chance qu'au mois 1 rivière soit créée lors de la génération
         /// </summary>
         [field: SerializeField, Range(0f, 100f)]
