@@ -6,8 +6,8 @@ using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
-using Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration;
 using Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration;
+using Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding;
 using Assets.Scripts.Runtime.ViewModels.Player;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -281,11 +281,6 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
             {
                 int nbForks = rand.NextFloat(100f) < rgs.RiverForkSpawnRate ? rand.NextInt(rgs.NbRiversForksInterval.x, rgs.NbRiversForksInterval.y) : 0;
                 int width = rand.NextInt(rgs.RiverWidthInterval.x, rgs.RiverWidthInterval.y);
-                NativeArray<int2> directions = new(4, Allocator.Temp);
-                directions[0] = new(1, 0);
-                directions[1] = new(-1, 0);
-                directions[2] = new(0, 1);
-                directions[3] = new(0, -1);
 
                 // Sélectionne un type de liquide au hasard.
                 // Chaque case dans le tableau correspond à différents niveaux de force du liquide.
@@ -294,12 +289,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
                 // On sélectionne 2 bords de la carte au hasard comme points de départ/fin
 
-                LiquidGenerationUtils.GetPointOnMapEdge(rand.NextInt(0, 4), width, grid.GridSize, ref rand, out int2 start);
-                LiquidGenerationUtils.GetPointOnMapEdge(rand.NextInt(0, 4), width, grid.GridSize, ref rand, out int2 end);
+                grid.GetPointOnMapEdge(rand.NextInt(0, 4), width, 1, ref rand, out int2 start);
+                grid.GetPointOnMapEdge(rand.NextInt(0, 4), width, 1, ref rand, out int2 end);
 
-                // On génère la rivière
+                // On génère le chemin
 
-                LiquidGenerationUtils.CreateRiver(width, start, end, directions.AsReadOnly(), grid.GridSize, ref rand, out NativeArray<int2> path);
+                AStarPathfinding.GetPath(start, end, grid.GridSize, ref rand, out NativeArray<int2> path);
 
                 // On retire toutes les cases destructibles
                 // pour y placer une zone liquide

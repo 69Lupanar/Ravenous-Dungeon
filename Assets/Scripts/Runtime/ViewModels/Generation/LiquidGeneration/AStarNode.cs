@@ -1,4 +1,5 @@
 using System;
+using Unity.Burst;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
@@ -36,9 +37,10 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         /// <summary>
         /// Constructeur
         /// </summary>
-        public AStarNode(int x, int y)
+        /// <param name="position">La position du noeud sur la grille</param>
+        public AStarNode(int2 position)
         {
-            Position = new int2(x, y);
+            Position = position;
             ParentPos = int2.zero;
             GCost = 0;
             HCost = 0;
@@ -48,6 +50,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         /// Indique si les deux objets sont égaux
         /// </summary>
         /// <param name="other">L'objet comparé</param>
+        [BurstCompile]
         public readonly bool Equals(AStarNode other)
         {
             return math.all(Position == other.Position) && GCost == other.GCost && HCost == other.HCost && math.all(ParentPos == other.ParentPos);

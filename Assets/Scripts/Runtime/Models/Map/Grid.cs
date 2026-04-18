@@ -127,6 +127,45 @@ namespace Assets.Scripts.Runtime.Models.Map
             return coords.x < 0 || coords.x >= GridSize.x || coords.y < 0 || coords.y >= GridSize.y;
         }
 
+        /// <summary>
+        /// Prend une case au hasard sur les bords de la carte pour la génération de rivière
+        /// en tenant compte de la largeur de la rivière à générer
+        /// </summary>
+        /// <param name="randEdge">Côté de la carte sélectionné</param>
+        /// <param name="width">Ecart des extrémités de la carte</param>
+        /// <param name="offsetFromEdge">Décalage du bord de la carte</param>
+        /// <param name="rand">Générateur d'aléatoire</param>
+        /// <returns>Une coordonnée au hasard sur la carte</returns>
+        [BurstCompile]
+        public void GetPointOnMapEdge(in int randEdge, in int width, in int offsetFromEdge, ref Unity.Mathematics.Random rand, out int2 result)
+        {
+            switch (randEdge)
+            {
+                // Bord droit
+                case 0:
+                    result = new int2(GridSize.x - offsetFromEdge, rand.NextInt(width, GridSize.y - width));
+                    break;
+
+                // Bord gauche
+                case 1:
+                    result = new int2(offsetFromEdge, rand.NextInt(width, GridSize.y - width));
+                    break;
+
+                // Bord haut
+                case 2:
+                    result = new int2(rand.NextInt(width, GridSize.x - width), GridSize.y - offsetFromEdge);
+                    break;
+
+                // Bord bas
+                case 3:
+                    result = new int2(rand.NextInt(width, GridSize.x - width), offsetFromEdge);
+                    break;
+
+                default:
+                    goto case 0;
+            }
+        }
+
         #endregion
     }
 }
