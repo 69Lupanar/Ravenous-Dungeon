@@ -1,8 +1,10 @@
 using Assets.Scripts.Runtime.Models.Actors;
+using Assets.Scripts.Runtime.Models.Map;
 using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
+using Unity.Collections;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
@@ -28,7 +30,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
 
                     // Si c'est les limites de la carte, on marque les murs comme indestructibles
 
-                    if ((y == 0 || y == gridSize.x - 1) ^ (x > 1 && x < gridSize.x))
+                    if (y == 0 || y == gridSize.x - 1 || x == 0 && x == gridSize.x - 1)
                     {
                         ref StaticEnvironmentActor actor = ref environmentLayer[index];
                         actor.Attributes |= TileAttributes.Indestructible;
@@ -88,6 +90,33 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
             for (int y = math.min(yStart, yEnd); y <= math.max(yStart, yEnd); ++y)
             {
                 environmentLayer[xPosition + y * gridSize.x] = new StaticEnvironmentActor(tileLibrary.GroundTile);
+            }
+        }
+
+        /// <summary>
+        /// Retire toutes les cases destructibles
+        /// pour y placer des zones liquides
+        /// </summary>
+        /// <param name="tl">Contient les cases utilisés pour la génération</param>
+        /// <param name="grid">La grille</param>
+        /// <param name="type">Le type de liquide utilisé</param>
+        /// <param name="path">Chemin de la rivière</param>
+        /// <param name="rand">Générateur d'aléatoire</param>
+        internal static void CreateRiver(TileLibrarySO tl, Grid grid, LiquidType type, NativeArray<int2> path, ref Random rand)
+        {
+            for (int j = 0; j < path.Length; ++j)
+            {
+                int index = grid.ToIndex(path[j]);
+                LiquidTileSO liquidTile = tl.RiverTiles[type].Sample(ref rand);
+
+                if (!grid.StaticEnvironmentLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
+                    !grid.InteractablesLayer[index].Attributes.HasFlag(TileAttributes.Indestructible))
+                {
+                    grid.StaticEnvironmentLayer[index] = default;
+                    grid.DoorsLayer[index] = default;
+                    grid.InteractablesLayer[index] = default;
+                    grid.LiquidsLayer[index] = new LiquidActor(liquidTile);
+                }
             }
         }
 

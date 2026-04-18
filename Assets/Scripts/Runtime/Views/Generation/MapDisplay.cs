@@ -38,6 +38,12 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private Tilemap _environmentTilemap;
 
         /// <summary>
+        /// La couche de la tilemap contenant les cases des rivières et lacs
+        /// </summary>
+        [SerializeField]
+        private Tilemap _liquidsTilemap;
+
+        /// <summary>
         /// La couche de la tilemap contenant les cases interagissables
         /// </summary>
         [SerializeField]
@@ -97,12 +103,16 @@ namespace Assets.Scripts.Runtime.Views.Generation
             Clear();
             _curPalette = e.SpriteLibrary;
             DisplayEnvironment(e.Grid.GridSize, e.Grid.StaticEnvironmentLayer, e.SpriteLibrary, _environmentTilemap);
-            DisplayLiquids(e.Grid.GridSize, e.Grid.LiquidsLayer, e.SpriteLibrary, _environmentTilemap);
+            DisplayLiquids(e.Grid.GridSize, e.Grid.LiquidsLayer, e.SpriteLibrary, _liquidsTilemap);
             DisplayDoors(e.Grid.GridSize, e.Grid.DoorsLayer, e.SpriteLibrary, _interactablesTilemap);
             DisplayInteractables(e.Grid.GridSize, e.Grid.InteractablesLayer, e.SpriteLibrary, _interactablesTilemap);
         }
 
-        private void OnPlayerSpawned(object sender, PlayerSpawnedEventArgs e)
+        /// <summary>
+        /// Appelée quand le perso du joueur est placé sur la carte
+        /// </summary>
+        /// <param name="e">Les infos sur l'action</param>
+        private void OnPlayerSpawned(object _, PlayerSpawnedEventArgs e)
         {
             DisplayPlayer(Vector3Int.zero, _playerController.PlayerPos, _curPalette, _playerTilemap);
         }
@@ -124,6 +134,7 @@ namespace Assets.Scripts.Runtime.Views.Generation
         private void Clear()
         {
             _environmentTilemap.ClearAllTiles();
+            _liquidsTilemap.ClearAllTiles();
             _interactablesTilemap.ClearAllTiles();
             _playerTilemap.ClearAllTiles();
         }
