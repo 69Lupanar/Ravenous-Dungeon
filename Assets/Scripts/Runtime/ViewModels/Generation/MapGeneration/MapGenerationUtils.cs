@@ -4,6 +4,8 @@ using Assets.Scripts.Runtime.Models.Tiles;
 using Assets.Scripts.Runtime.Models.Tiles.TilePalette;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Assets.Scripts.Runtime.ViewModels.Extensions;
+using Unity.Burst;
+using Unity.Burst.CompilerServices;
 using Unity.Collections;
 using Unity.Mathematics;
 
@@ -100,24 +102,86 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
         /// <param name="tl">Contient les cases utilisés pour la génération</param>
         /// <param name="grid">La grille</param>
         /// <param name="type">Le type de liquide utilisé</param>
+        /// <param name="width">Largeur de la rivière</param>
         /// <param name="path">Chemin de la rivière</param>
         /// <param name="rand">Générateur d'aléatoire</param>
-        internal static void CreateRiver(TileLibrarySO tl, Grid grid, LiquidType type, NativeArray<int2> path, ref Random rand)
+        internal static void CreateRiver(TileLibrarySO tl, Grid grid, LiquidType type, int width, NativeArray<int2> path, ref Random rand)
         {
-            for (int j = 0; j < path.Length; ++j)
+            for (int i = 0; i < path.Length; ++i)
             {
-                int index = grid.ToIndex(path[j]);
+                int index = grid.ToIndex(path[i]);
                 LiquidTileSO liquidTile = tl.RiverTiles[type].Sample(ref rand);
 
-                if (!grid.StaticEnvironmentLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
-                    !grid.InteractablesLayer[index].Attributes.HasFlag(TileAttributes.Indestructible))
+                GetNeighbourCoords(path[i], width, grid, out NativeArray<int2> neighbours);
+
+                for (int j = 0; j < neighbours.Length; ++j)
                 {
+                    index = grid.ToIndex(neighbours[j]);
+
                     grid.StaticEnvironmentLayer[index] = default;
                     grid.DoorsLayer[index] = default;
                     grid.InteractablesLayer[index] = default;
                     grid.LiquidsLayer[index] = new LiquidActor(liquidTile);
                 }
             }
+        }
+
+        /// <summary>
+        /// Génère une grille de valeurs correspondant à une texture de Perlin Noise
+        /// </summary>
+        /// <param name="gridSize">Dimensions de la grille</param>
+        /// <param name="noiseFactor">Taux d'influence du noise</param>
+        /// <param name="noiseScale">Echelle du noise</param>
+        /// <param name="result">Grille de valeurs</param>
+        [BurstCompile, SkipLocalsInit]
+        internal static void CreateNoise(in int2 gridSize, in float noiseFactor, float noiseScale, out NativeArray<float> result)
+        {
+            result = new NativeArray<float>(gridSize.x * gridSize.y, Allocator.Temp);
+
+            for (float y = 0; y < gridSize.y; ++y)
+            {
+                for (float x = 0; x < gridSize.x; ++x)
+                {
+                    result[(int)x + (int)y * gridSize.x] = math.lerp(0f, noise.cnoise(new float2(x / gridSize.x * noiseScale, y / gridSize.y * noiseScale)), noiseFactor);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Méthodes privées
+
+        /// <summary>
+        /// Récupère les cases voisines au point du chemin renseigné
+        /// en respectant la largeur du chemin
+        /// </summary>
+        /// <param name="point">Centre</param>
+        /// <param name="width">Largeur</param>
+        /// <param name="grid">La grille</param>
+        /// <param name="result">Les cases voisines</param>
+        private static void GetNeighbourCoords(int2 point, int width, Grid grid, out NativeArray<int2> result)
+        {
+            NativeList<int2> neighbours = new(Allocator.Temp);
+
+            for (int x = point.x - width / 2; x <= point.x + width / 2; ++x)
+            {
+                for (int y = point.y - width / 2; y <= point.y + width / 2; ++y)
+                {
+                    int2 pos = new(x, y);
+
+                    int index = grid.ToIndex(pos);
+
+                    if (pos.x > 0 && pos.x < grid.GridSize.x - 1 && pos.y > 0 && pos.y < grid.GridSize.y - 1 &&
+                        !grid.StaticEnvironmentLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
+                        !grid.InteractablesLayer[index].Attributes.HasFlag(TileAttributes.Indestructible) &&
+                        !neighbours.Contains(pos))
+                    {
+                        neighbours.Add(pos);
+                    }
+                }
+            }
+
+            result = neighbours.AsArray();
         }
 
         #endregion

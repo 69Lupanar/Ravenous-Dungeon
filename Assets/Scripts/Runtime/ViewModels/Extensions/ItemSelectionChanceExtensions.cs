@@ -20,7 +20,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Extensions
         {
             if (collection.Count() == 0)
             {
-                throw new System.Exception("Error : There is no element in the collection.");
+                return default;
             }
 
             if (collection.Count() == 1)
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Extensions
         {
             if (collection.Count() == 0)
             {
-                throw new System.Exception("Error : There is no element in the collection.");
+                return default;
             }
 
             if (collection.Count() == 1)

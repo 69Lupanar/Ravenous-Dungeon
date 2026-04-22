@@ -111,14 +111,14 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
         public void Generate()
         {
             GenerationSettingsSO gs = _generationSettings[_rand.NextInt(_generationSettings.Length)];
-            Generate(gs);
+            GenerateRandomMap(gs);
         }
 
         /// <summary>
         /// Génère une nouvelle carte
         /// </summary>
         /// <param name="gs">Paramètres de génération</param>
-        public void Generate(GenerationSettingsSO gs)
+        public void GenerateRandomMap(GenerationSettingsSO gs)
         {
             int2 gridSize = new(_rand.NextInt(gs.GridSizeInterval.x, gs.GridSizeInterval.y), _rand.NextInt(gs.GridSizeInterval.x, gs.GridSizeInterval.y));
 
@@ -130,9 +130,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
             GenerateEnvironmnent(gs.TileLibrary, selectedAlg, _grid, ref _rand);
 
-            // Génère les rivières
+            // Génère les liquides
 
-            GenerateRivers(gs.TileLibrary, selectedRiverSettings, _grid, ref _rand);
+            if (selectedRiverSettings != null)
+            {
+                GenerateRivers(gs.TileLibrary, selectedRiverSettings, _grid, ref _rand);
+            }
 
             // Génère les éléments interactifs
 
@@ -307,13 +310,15 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
 
                 // On génère le chemin
 
-                AStarPathfinding.GetPath(start, end, grid.GridSize, ref rand, out NativeArray<int2> path);
-                MapGenerationUtils.CreateRiver(tl, grid, type, path, ref rand);
+                MapGenerationUtils.CreateNoise(grid.GridSize, lgs.NoiseFactor, lgs.NoiseScale, out NativeArray<float> noise);
+                AStarPathfinding.GetPath(start, end, grid.GridSize, noise, out NativeArray<int2> path);
+                MapGenerationUtils.CreateRiver(tl, grid, type, width, path, ref rand);
 
                 // On crée des branches si besoin
 
                 for (int j = 0; j < nbForks; ++j)
                 {
+                    width = rand.NextInt(lgs.RiverWidthInterval.x, lgs.RiverWidthInterval.y);
                     int2 randomPointOnRiver = path[rand.NextInt(path.Length)];
 
                     if (!lgs.AllowForkToReturnToStartingEdge)
@@ -328,8 +333,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation
                     }
 
                     grid.GetPointOnMapEdge(randomEndEdge, width, 1, ref rand, out end);
-                    AStarPathfinding.GetPath(randomPointOnRiver, end, grid.GridSize, ref rand, out path);
-                    MapGenerationUtils.CreateRiver(tl, grid, type, path, ref rand);
+                    AStarPathfinding.GetPath(randomPointOnRiver, end, grid.GridSize, noise, out path);
+                    MapGenerationUtils.CreateRiver(tl, grid, type, width, path, ref rand);
                 }
             }
         }

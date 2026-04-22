@@ -17,7 +17,7 @@ namespace Assets.Scripts.Runtime.ViewModels
         [BurstCompile]
         public static void Reverse<T>(ref this NativeArray<T> arr) where T : unmanaged
         {
-            for (int i = 0; i < arr.Length; ++i)
+            for (int i = 0; i < arr.Length / 2; ++i)
             {
                 (arr[i], arr[arr.Length - 1 - i]) = (arr[arr.Length - 1 - i], arr[i]);
             }
@@ -31,13 +31,13 @@ namespace Assets.Scripts.Runtime.ViewModels
         [BurstCompile]
         public static void Reverse<T>(ref this NativeList<T> arr) where T : unmanaged
         {
-            for (int i = 0; i < arr.Length; ++i)
+            for (int i = 0; i < arr.Length / 2; ++i)
             {
                 (arr[i], arr[arr.Length - 1 - i]) = (arr[arr.Length - 1 - i], arr[i]);
             }
         }
 
-        /// <summary>
+        /// <summary>  
         /// Indique si la collection contient la valeur demandée
         /// </summary>
         /// <typeparam name="T">Type de la collection</typeparam>

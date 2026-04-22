@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Assets.Scripts.Runtime.Models.Actors;
 using Assets.Scripts.Runtime.Models.ValueTypes;
 using Unity.Burst;
+using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -128,6 +129,17 @@ namespace Assets.Scripts.Runtime.Models.Map
         }
 
         /// <summary>
+        /// Indique si les coordonnées tombent en dehors de la grille
+        /// </summary>
+        /// <param name="coords">Les coordonnées</param>
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool OutOfBounds(in int2 coords)
+        {
+            return coords.x < 0 || coords.x >= GridSize.x || coords.y < 0 || coords.y >= GridSize.y;
+        }
+
+        /// <summary>
         /// Prend une case au hasard sur les bords de la carte pour la génération de rivière
         /// en tenant compte de la largeur de la rivière à générer
         /// </summary>
@@ -137,7 +149,7 @@ namespace Assets.Scripts.Runtime.Models.Map
         /// <param name="rand">Générateur d'aléatoire</param>
         /// <returns>Une coordonnée au hasard sur la carte</returns>
         [BurstCompile]
-        public void GetPointOnMapEdge(in int randEdge, in int width, in int offsetFromEdge, ref Unity.Mathematics.Random rand, out int2 result)
+        public void GetPointOnMapEdge([AssumeRange(0, 4)] in int randEdge, in int width, in int offsetFromEdge, ref Unity.Mathematics.Random rand, out int2 result)
         {
             switch (randEdge)
             {

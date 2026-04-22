@@ -17,6 +17,18 @@ namespace Assets.Scripts.Runtime.Models.Generation
         public bool AllowForkToReturnToStartingEdge { get; private set; }
 
         /// <summary>
+        /// Echelle du noise pour la génération des liquides
+        /// </summary>
+        [field: SerializeField, Min(0.01f)]
+        public float NoiseScale { get; private set; }
+
+        /// <summary>
+        /// Taux d'influence du noise sur la génération des liquides
+        /// </summary>
+        [field: SerializeField, Range(0f, 1f)]
+        public float NoiseFactor { get; private set; }
+
+        /// <summary>
         /// %age de chance qu'au mois 1 rivière soit créée lors de la génération
         /// </summary>
         [field: SerializeField, Range(0f, 100f)]

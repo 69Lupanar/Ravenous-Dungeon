@@ -33,7 +33,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
         /// <param name="rand">Générateur d'aléatoire</param>
         ///  <param name="result">Liste des coordonnées où placer des cases de liquide</param>
         [BurstCompile, SkipLocalsInit]
-        internal static void GetPath(in int2 startPos, in int2 endPos, in int2 gridSize, ref Random rand, out NativeArray<int2> result)
+        internal static void GetPath(in int2 startPos, in int2 endPos, in int2 gridSize, out NativeArray<int2> result)
         {
             result = default;
             NativeArray<AStarNode> grid = new(gridSize.x * gridSize.y, Allocator.Temp);
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
             {
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    int2 pos = new int2(x, y);
+                    int2 pos = new(x, y);
                     grid[ToIndex(pos, gridSize.x)] = new AStarNode(pos);
                 }
             }
@@ -101,6 +101,86 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
             }
         }
 
+        /// <summary>
+        /// Génère une rivière
+        /// </summary>
+        /// <param name="startPos">Début de la rivière</param>
+        /// <param name="endPos">Fin de la rivière</param>
+        /// <param name="gridSize">Dimensions de la grille</param>
+        /// <param name="noiseGrid">Permet d'altérer aléatoirement le poids de chaque cellule</param>
+        ///  <param name="result">Liste des coordonnées où placer des cases de liquide</param>
+        [BurstCompile, SkipLocalsInit]
+        internal static void GetPath(in int2 startPos, in int2 endPos, in int2 gridSize, in NativeArray<float> noiseGrid, out NativeArray<int2> result)
+        {
+            NativeArray<AStarNode> grid = new(gridSize.x * gridSize.y, Allocator.Temp);
+
+            for (int y = 0; y < gridSize.y; ++y)
+            {
+                for (int x = 0; x < gridSize.x; ++x)
+                {
+                    int2 pos = new(x, y);
+                    grid[ToIndex(pos, gridSize.x)] = new AStarNode(pos);
+                }
+            }
+
+            NativeList<AStarNode> openSet = new(1, Allocator.Temp);
+            NativeList<AStarNode> closedSet = new(1, Allocator.Temp);
+
+            openSet.Add(grid[ToIndex(startPos, gridSize.x)]);
+
+            while (openSet.Length > 0)
+            {
+                AStarNode currentNode = openSet[0];
+                int index = 0;
+
+                for (int i = 1; i < openSet.Length; ++i)
+                {
+                    if (openSet[i].FCost < currentNode.FCost || openSet[i].FCost == currentNode.FCost && openSet[i].HCost < currentNode.HCost)
+                    {
+                        currentNode = openSet[i];
+                        index = i;
+                    }
+                }
+
+                openSet.RemoveAt(index);
+                closedSet.Add(currentNode);
+
+                if (math.all(currentNode.Position == endPos))
+                {
+                    RetracePath(grid, gridSize, startPos, endPos, out result);
+                    return;
+                }
+
+                GetNeighbours(currentNode.Position, grid, gridSize, out NativeArray<AStarNode> neighbours);
+
+                for (int i = 0; i < neighbours.Length; ++i)
+                {
+                    AStarNode neighbour = neighbours[i];
+
+                    if (closedSet.Contains(neighbour))
+                        continue;
+
+                    int noiseWeight = (int)(noiseGrid[ToIndex(neighbour.Position, gridSize.x)] * NORMAL_WEIGHT);
+
+                    int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode.Position, neighbour.Position) + noiseWeight;
+                    bool openSetContainsNeighbour = openSet.Contains(neighbour);
+
+                    if (newMovementCostToNeighbour < neighbour.GCost || !openSetContainsNeighbour)
+                    {
+                        neighbour.GCost = newMovementCostToNeighbour;
+                        neighbour.HCost = GetDistance(neighbour.Position, endPos) - noiseWeight;
+                        neighbour.ParentPos = currentNode.Position;
+                        grid[ToIndex(neighbour.Position, gridSize.x)] = neighbour;
+
+                        if (!openSetContainsNeighbour)
+                            openSet.Add(neighbour);
+                    }
+                }
+            }
+
+            result = default;
+        }
+
         #endregion
 
         #region Méthodes privées
@@ -153,7 +233,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
         /// Obtient le coût du mouvement entre les positions
         /// </summary>
         /// <param name="a">Position de la node actuelle</param>
-        /// <param name="b">Position du voison</param>
+        /// <param name="b">Position du voison</param> 
         [BurstCompile]
         private static int GetDistance(in int2 a, in int2 b)
         {

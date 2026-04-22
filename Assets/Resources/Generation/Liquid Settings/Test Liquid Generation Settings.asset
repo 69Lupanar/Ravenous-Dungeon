@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04dd7517e91d9743bedfb3fe01ba2f9, type: 3}
   m_Name: Test Liquid Generation Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Generation.RiverGenerationSettingsSO
+  <AllowForkToReturnToStartingEdge>k__BackingField: 0
+  <NoiseScale>k__BackingField: 1
+  <NoiseFactor>k__BackingField: 1
+  <RiverSpawnRate>k__BackingField: 50
+  <RiverForkSpawnRate>k__BackingField: 50
+  <LakeSpawnRate>k__BackingField: 50
   <NbRiversInterval>k__BackingField:
     x: 1
     y: 4
@@ -21,9 +27,6 @@ MonoBehaviour:
   <NbRiversForksInterval>k__BackingField:
     x: 1
     y: 3
-  <RiverSpawnRate>k__BackingField: 50
-  <RiverForkSpawnRate>k__BackingField: 50
-  <LakeSpawnRate>k__BackingField: 50
   <RiverWidthInterval>k__BackingField:
     x: 1
     y: 4
