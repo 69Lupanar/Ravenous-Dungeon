@@ -18,7 +18,12 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
         /// <summary>
         /// Coût de navigation d'une case
         /// </summary>
-        private const int NORMAL_WEIGHT = 10;
+        private const float MOVEMENT_COST = 10f;
+
+        /// <summary>
+        /// Force du noise sur la direction du pathfinding
+        /// </summary>
+        private const float NOISE_STRENGTH = 50f;
 
         #endregion
 
@@ -84,7 +89,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
                     if (closedSet.Contains(neighbour))
                         continue;
 
-                    int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode.Position, neighbour.Position);
+                    float newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode.Position, neighbour.Position);
                     bool openSetContainsNeighbour = openSet.Contains(neighbour);
 
                     if (newMovementCostToNeighbour < neighbour.GCost || !openSetContainsNeighbour)
@@ -160,9 +165,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
                     if (closedSet.Contains(neighbour))
                         continue;
 
-                    int noiseWeight = (int)(noiseGrid[ToIndex(neighbour.Position, gridSize.x)] * NORMAL_WEIGHT);
-
-                    int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode.Position, neighbour.Position) + noiseWeight;
+                    int noiseWeight = (int)(noiseGrid[ToIndex(neighbour.Position, gridSize.x)] * NOISE_STRENGTH);
+                    float newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode.Position, neighbour.Position) + noiseWeight;
                     bool openSetContainsNeighbour = openSet.Contains(neighbour);
 
                     if (newMovementCostToNeighbour < neighbour.GCost || !openSetContainsNeighbour)
@@ -235,15 +239,15 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.Pathfinding
         /// <param name="a">Position de la node actuelle</param>
         /// <param name="b">Position du voison</param> 
         [BurstCompile]
-        private static int GetDistance(in int2 a, in int2 b)
+        private static float GetDistance(in int2 a, in int2 b)
         {
             int dstX = math.abs(a.x - b.x);
             int dstY = math.abs(a.y - b.y);
 
             if (dstX > dstY)
-                return dstY + (dstX - dstY) * NORMAL_WEIGHT;
+                return dstY + (dstX - dstY) * MOVEMENT_COST;
 
-            return dstX + (dstY - dstX) * NORMAL_WEIGHT;
+            return dstX + (dstY - dstX) * MOVEMENT_COST;
         }
 
         /// <summary>

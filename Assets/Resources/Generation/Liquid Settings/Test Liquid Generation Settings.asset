@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Liquid Generation Settings
   m_EditorClassIdentifier: Assets.Scripts.Runtime::Assets.Scripts.Runtime.Models.Generation.RiverGenerationSettingsSO
   <AllowForkToReturnToStartingEdge>k__BackingField: 0
-  <NoiseScale>k__BackingField: 1
+  <NoiseScale>k__BackingField: 20
   <NoiseFactor>k__BackingField: 1
   <RiverSpawnRate>k__BackingField: 50
   <RiverForkSpawnRate>k__BackingField: 50

@@ -142,7 +142,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.MapGeneration
             {
                 for (float x = 0; x < gridSize.x; ++x)
                 {
-                    result[(int)x + (int)y * gridSize.x] = math.lerp(0f, noise.cnoise(new float2(x / gridSize.x * noiseScale, y / gridSize.y * noiseScale)), noiseFactor);
+                    result[(int)x + (int)y * gridSize.x] = math.lerp(0f, noise.cnoise(new float2(x / gridSize.x * noiseScale, y / gridSize.y * noiseScale)) + UnityEngine.Time.time, noiseFactor);
                 }
             }
         }

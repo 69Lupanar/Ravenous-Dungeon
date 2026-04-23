@@ -22,17 +22,17 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         /// <summary>
         /// Distance du noeud par rapport au point de départ
         /// </summary>
-        public int GCost { get; set; }
+        public float GCost { get; set; }
 
         /// <summary>
         /// Distance du noeud par rapport au point d'arrivée
         /// </summary>
-        public int HCost { get; set; }
+        public float HCost { get; set; }
 
         /// <summary>
         /// Somme du GCost et du HCost
         /// </summary>
-        public readonly int FCost => GCost + HCost;
+        public readonly float FCost => GCost + HCost;
 
         /// <summary>
         /// Constructeur
@@ -42,8 +42,8 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         {
             Position = position;
             ParentPos = int2.zero;
-            GCost = 0;
-            HCost = 0;
+            GCost = 0f;
+            HCost = 0f;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Runtime.ViewModels.Generation.LiquidGeneration
         [BurstCompile]
         public readonly bool Equals(AStarNode other)
         {
-            return math.all(Position == other.Position) && GCost == other.GCost && HCost == other.HCost && math.all(ParentPos == other.ParentPos);
+            return math.all(Position == other.Position);
         }
     }
 }
