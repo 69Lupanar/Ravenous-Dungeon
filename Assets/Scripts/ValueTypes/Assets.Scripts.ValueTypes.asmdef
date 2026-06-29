@@ -1,13 +1,12 @@
 {
-    "name": "Assets.Editor",
+    "name": "Assets.Scripts.ValueTypes",
     "rootNamespace": "",
-    "references": [
-        "GUID:e0cd26848372d4e5c891c569017e11f1",
-        "GUID:d8b63aba1907145bea998dd612889d6b",
-        "GUID:935eff8f4a67f8644828a4280e6087cf"
-    ],
+    "references": [],
     "includePlatforms": [
-        "Editor"
+        "Editor",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

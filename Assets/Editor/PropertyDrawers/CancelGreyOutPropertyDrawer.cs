@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Runtime.Models.PropertyAttributes;
+﻿using Assets.Scripts.PropertyAttributes;
 using UnityEditor;
 using UnityEngine;
 
