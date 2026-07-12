@@ -7,7 +7,7 @@ namespace Assets.Scripts.MapGeneration.Algorithms
     /// Param�tres de g�n�ration de la carte
     /// </summary>
     [CreateAssetMenu(fileName = "Rooms And Corridors Algorithm Settings", menuName = "Scriptable Objects/Castle of Temptation/Map Generation/Rooms And Corridors Algorithm Settings")]
-    public class RoomsAndCorridorsAlgorithmSettingsSO : GenerationAlgorithmSettingsSO
+    public class RoomsAndCorridorsAlgorithmSettingsSO : MapGenerationAlgorithmSettingsSO
     {
         /// <summary>
         /// L'intervalle possible du nombre max de salles à instancier

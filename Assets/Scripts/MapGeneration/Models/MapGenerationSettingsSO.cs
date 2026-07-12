@@ -38,6 +38,6 @@ namespace Assets.Scripts.MapGeneration
         /// </summary>
         [field: SerializeField]
         [field: Tooltip("Dimensions de la carte à générer")]
-        public ItemSelectionChance<GenerationAlgorithmSettingsSO>[] Algorithms { get; private set; }
+        public ItemSelectionChance<MapGenerationAlgorithmSettingsSO>[] Algorithms { get; private set; }
     }
 }

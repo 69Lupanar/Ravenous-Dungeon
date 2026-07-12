@@ -1,12 +1,12 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.ViewModels
+namespace Assets.Scripts.Player
 {
     /// <summary>
     /// Obtient les inputs du joueur
     /// </summary>
-    public class PlayerInputViewModel : MonoBehaviour
+    public class PlayerInput : MonoBehaviour
     {
         #region Propriétés
 

@@ -1,5 +1,4 @@
 using System;
-using Assets.Scripts.Player.ViewModels;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -39,7 +38,7 @@ namespace Assets.Scripts.Player
         /// Les inputs du joueur
         /// </summary>
         [SerializeField]
-        private PlayerInputViewModel _input;
+        private PlayerInput _input;
 
         /// <summary>
         /// Indique les types de cases où le joueur peut être instancié

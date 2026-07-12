@@ -2,9 +2,9 @@
   <Project Path="AYellowpaper.SerializedCollections.csproj" />
   <Project Path="Assets.Scripts.Player.csproj" />
   <Project Path="AYellowpaper.SerializeInterfaces.Editor.csproj" />
-  <Project Path="Assets.Scripts.MapGeneration.csproj" />
   <Project Path="AYellowpaper.SerializedCollections.Editor.csproj" />
   <Project Path="Assets.Scripts.ValueTypes.csproj" />
+  <Project Path="Assets.Scripts.MapGeneration.csproj" />
   <Project Path="Assets.Scripts.PropertyAttributes.csproj" />
   <Project Path="Assets.Scripts.Extensions.csproj" />
   <Project Path="Assets.Editor.csproj" />
