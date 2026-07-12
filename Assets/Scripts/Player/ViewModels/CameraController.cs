@@ -1,4 +1,3 @@
-using Assets.Scripts.Player.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Player.ViewModels

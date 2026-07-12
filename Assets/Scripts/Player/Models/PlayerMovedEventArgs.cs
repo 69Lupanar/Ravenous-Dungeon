@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.Models
+namespace Assets.Scripts.Player
 {
     /// <summary>
     /// Infos sur l'action de déplacement

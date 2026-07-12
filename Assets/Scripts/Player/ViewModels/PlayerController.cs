@@ -1,8 +1,8 @@
 using System;
-using Assets.Scripts.Player.Models;
+using Assets.Scripts.Player.ViewModels;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.ViewModels
+namespace Assets.Scripts.Player
 {
     /// <summary>
     /// Chargé d'instancier et contrôler le joueur
